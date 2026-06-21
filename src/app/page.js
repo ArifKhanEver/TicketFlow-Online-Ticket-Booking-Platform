@@ -2,6 +2,9 @@ import AdvertisedTickets from "@/Components/home/AdvertisedTickets";
 import Hero from "@/Components/home/Hero";
 import HowItWorks from "@/Components/home/HowItWorks";
 import LatestTickets from "@/Components/home/LatestTickets";
+import PopularDestinations from "@/Components/home/PopularDestinations";
+import StatsCounter from "@/Components/home/StatsCounter";
+import VendorCTA from "@/Components/home/VendorCTA";
 import WhyChooseUs from "@/Components/home/WhyChooseUs";
 
 
@@ -13,6 +16,9 @@ export default function Home() {
       <LatestTickets/>
       <HowItWorks/>
       <WhyChooseUs/>
+      <PopularDestinations/>
+      <StatsCounter/>
+      <VendorCTA/>
     </div>
   );
 }
