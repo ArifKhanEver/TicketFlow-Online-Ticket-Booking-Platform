@@ -1,5 +1,6 @@
 import AdvertisedTickets from "@/Components/home/AdvertisedTickets";
 import Hero from "@/Components/home/Hero";
+import HowItWorks from "@/Components/home/HowItWorks";
 import LatestTickets from "@/Components/home/LatestTickets";
 
 
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero></Hero>
       <AdvertisedTickets></AdvertisedTickets>
       <LatestTickets/>
+      <HowItWorks/>
     </div>
   );
 }
