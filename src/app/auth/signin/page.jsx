@@ -17,13 +17,30 @@ export default function SignIn() {
   const [socialLoading, setSocialLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignIn = async (e) => {
+const handleSignIn = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
+    const email = formData.get("email")?.toString().trim();
     const password = formData.get("password");
+
+    if (!email) {
+        toast.error("Email is required");
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address");
+        return;
+    }
+
+    if (!password) {
+        toast.error("Password is required");
+        return;
+    }
+
+    setLoading(true);
 
     try {
       const { error } = await authClient.signIn.email({
@@ -59,8 +76,7 @@ export default function SignIn() {
   };
 
   return (
-    // FIX: লাইট মোডে সাদা, ডার্ক মোডে কালো (Navbar এর সাথে 100% ম্যাচিং)
-    <section className="relative min-h-screen w-full bg-gray-50 dark:bg-[#15151a] text-zinc-900 dark:text-white flex items-center justify-center px-4 py-12 overflow-hidden transition-colors duration-300">
+    <section className="relative min-h-screen w-full bg-gray-50 dark:bg-[#15151a] text-zinc-900 dark:text-white flex items-center justify-center px-4 py-12 overflow-hidden transition-colors duration-300 py-50">
       
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none z-0" />
@@ -149,7 +165,7 @@ export default function SignIn() {
           <p className="text-center text-xs text-zinc-500 dark:text-zinc-400 mt-6 pt-2">
             Don't have an account?{" "}
             <Link
-              href={`/signup?redirectTo=${redirectTo}`}
+              href={`/auth/signup?redirectTo=${redirectTo}`}
               className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-medium transition-colors duration-150 text-xs inline-flex"
             >
               Sign up

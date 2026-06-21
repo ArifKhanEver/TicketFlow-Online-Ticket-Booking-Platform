@@ -4,7 +4,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { admin } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_URI);
-const db = client.db("TicketFlow");
+const db = client.db(process.env.AUTH_DB_NAME);
 
 export const auth = betterAuth({
     database: mongodbAdapter(db, {
@@ -16,14 +16,26 @@ export const auth = betterAuth({
         enabled: true,
     },
     user: {
-       additionalFields: {
-          role: {
-              type: "string",
-              default: "seeker"
-            },
-            plan: {
-                default: "seeker_free"
-            } 
+        additionalFields: {
+            signupRole: {
+                type: "string",
+                required: false,
+                defaultValue: "user"
+            }
+        }
+    }, databaseHooks: {
+        user: {
+            create: {
+                before: async (user) => {
+                    const finalRole = user.signupRole === "vendor" ? "vendor" : "user";
+                    return {
+                        data: {
+                            ...user,
+                            role: finalRole
+                        }
+                    };
+                }
+            }
         }
     },
     socialProviders: {

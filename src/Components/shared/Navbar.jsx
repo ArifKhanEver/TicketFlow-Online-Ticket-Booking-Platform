@@ -57,7 +57,7 @@ export default function Navbar() {
     try {
       await authClient.signOut();
       setIsMenuOpen(false);
-      router.push('/signin');
+      router.push('/auth/signin');
     } catch (error) { toast.error("Sign out failed"); }
   };
 
@@ -76,9 +76,9 @@ export default function Navbar() {
   if (!mounted) return null;
 
   return (
-    <div className="w-full bg-transparent dark:bg-[#0A0A0C] px-4 py-4 md:px-8 md:py-6 sticky top-0 z-50 transition-colors duration-300">
+    <div className={`w-full sticky bg-transparent top-0 z-50 px-4 py-4 md:px-8 md:py-6 transition-colors duration-300 -mb-30 md:-mb-40`}>
 
-      <nav className="mx-auto max-w-7xl bg-zinc-50/90 dark:bg-[#141416]/90 border border-zinc-200 dark:border-zinc-800/60 backdrop-blur-xl rounded-2xl h-20 flex items-center justify-between px-6 md:px-10 text-zinc-900 dark:text-white shadow-lg dark:shadow-2xl transition-all duration-300">
+      <nav className="mx-auto max-w-7xl bg-white dark:bg-[#141416]/90 border border-zinc-200 dark:border-zinc-800/60 backdrop-blur-xl rounded-2xl h-20 flex items-center justify-between px-6 md:px-10 text-zinc-900 dark:text-white shadow-lg dark:shadow-2xl transition-all duration-300">
 
         {/* Logo */}
         <Link href="/" className="text-2xl font-black tracking-tight mb-2">
@@ -100,15 +100,26 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer">
-            {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-          </button>
+          {/* USER INFO BEFORE SIGN OUT (Desktop) */}
+          {session?.user && (
+            <div className="flex items-center gap-2">
+              <Image width={10} height={10} src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700" alt="Avatar" />
+              <div className='flex flex-col gap-0'>
+              <span className="text-sm font-semibold capitalize">{session.user.role || "Role"}</span>
+              <span className="text-sm font-semibold capitalize">{session.user.name}</span>
+              </div>
+            </div>
+          )}
 
           {session ? (
             <button onClick={handleSignOut} className="text-sm font-medium hover:text-red-500 dark:hover:text-red-400 transition-colors">Sign Out</button>
           ) : (
             <Link href="/auth/signin" className="text-sm font-medium text-[#5B51F9]">Sign In</Link>
           )}
+
+          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer">
+            {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+          </button>
         </div>
 
         {/* Mobile Toggle */}
@@ -116,7 +127,6 @@ export default function Navbar() {
           {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
 
-        {/* Mobile Menu */}
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
@@ -130,7 +140,6 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      // FIX: লাইট মোডে কালো টেক্সট, ডার্ক মোডে সাদা টেক্সট নিশ্চিত করা হলো
                       className="block py-2 text-zinc-900 dark:text-zinc-200 hover:text-black dark:hover:text-white font-medium transition-colors"
                     >
                       {link.name}
@@ -141,11 +150,21 @@ export default function Navbar() {
                 {/* Divider */}
                 <motion.div variants={itemVariants} className="h-[1px] w-full bg-zinc-200 dark:bg-zinc-800 my-2" />
 
+                {/* USER INFO BEFORE THEME TOGGLE AND SIGN OUT (Mobile) */}
+                {session?.user && (
+                  <motion.li variants={itemVariants} className="flex items-center gap-3">
+                    <Image width={10} height={10} src={session.user.image || "/default-avatar.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700" alt="Avatar" />
+                    <div className='flex flex-col'>
+                      <span className="font-semibold !text-zinc-900 dark:text-white">{session.user.name}</span>
+                      <span className="font-semibold !text-zinc-900 dark:text-white">{session.user.role || "Role"}</span>
+                    </div>
+                  </motion.li>
+                )}
+
                 {/* Theme Toggle (Mobile) */}
                 <motion.li variants={itemVariants}>
                   <button
                     onClick={toggleTheme}
-                    // FIX: টেক্সট এবং আইকনের কালার স্পষ্টভাবে বলে দেওয়া হলো
                     className="flex items-center gap-3 w-full text-left py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer"
                   >
                     {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
