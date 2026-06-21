@@ -1,60 +1,98 @@
+'use client';
+
 import React from 'react';
 import { Button } from "@heroui/react";
-import { FiArrowRight, FiBriefcase, FiMapPin } from "react-icons/fi";
+import { FiArrowRight, FiCheck, FiMapPin, FiLayers, FiInfo, FiTrendingUp } from "react-icons/fi";
+import Link from 'next/link';
 
 const AdvertisedTickets = () => {
-    const tickets = [1, 2, 3, 4, 5, 6];
-
-    const ticketsCard = <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {tickets.map((item) => (
-            <div key={item} className="group bg-white dark:bg-[#141416] border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-[#039855]/10 transition-all duration-300">
-
-                {/* Image Placeholder */}
-                <div className="h-56 bg-zinc-200 dark:bg-zinc-800 relative">
-                    <span className="absolute inset-0 flex items-center justify-center text-zinc-400 dark:text-zinc-600">Ticket Image</span>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Dhaka to Cox's Bazar</h3>
-                        <span className="bg-[#039855]/10 text-[#039855] text-xs font-bold px-3 py-1 rounded-full uppercase">Bus</span>
-                    </div>
-
-                    <div className="space-y-3 mb-6">
-                        <p className="text-sm text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-                            <FiBriefcase className="text-[#F05A28]" /> Perks: AC, Wi-Fi, Water
-                        </p>
-                        <div className="flex justify-between items-center text-lg font-bold">
-                            <span className="text-[#039855]">$45.00</span>
-                            <span className="text-sm font-normal text-zinc-500">12 Seats Left</span>
-                        </div>
-                    </div>
-
-                    <Button
-                        className="w-full h-12 bg-zinc-900 dark:bg-white text-white dark:text-black font-bold rounded-xl hover:bg-[#039855] dark:hover:bg-[#039855] hover:text-white transition-colors flex items-center gap-2"
-                    >
-                        See Details <FiArrowRight size={18} />
-                    </Button>
-                </div>
-            </div>
-        ))}
-    </div>
+    const advertisedTickets = [1, 2, 3, 4, 5, 6];
 
     return (
-        <section className="py-20 bg-zinc-50 dark:bg-[#0A0A0C] transition-colors duration-300">
+        <section className="py-24 bg-zinc-50 dark:bg-[#0A0A0C] transition-colors duration-300">
             <div className="container mx-auto max-w-7xl px-6 md:px-10">
-
+                
                 {/* Section Header */}
-                <div className="mb-12 text-center md:text-left">
-                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
-                        Featured <span className="text-[#039855]">Advertised</span> Tickets
-                    </h2>
-                    <p className="text-zinc-600 dark:text-zinc-400">Explore our top-picked travel options selected by admins.</p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 text-center md:text-left gap-4">
+                    <div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#F05A28]/10 text-[#F05A28] rounded-full text-xs font-bold tracking-wider uppercase mb-3">
+                            <FiTrendingUp /> Sponsored Routes
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white tracking-tight">
+                            Premium <span className="text-[#039855]">Featured</span> Deals
+                        </h2>
+                    </div>
+                    <p className="text-zinc-500 dark:text-zinc-400 max-w-md text-sm md:text-base">
+                        Top-rated intercity routes handpicked by administrators for exceptional luxury and comfort.
+                    </p>
                 </div>
 
-                {/* Ticket Grid */}
-                {ticketsCard}
+                {/* Grid Layout (আপনার দেওয়া আগের গ্রিড স্ট্রাকচার বজায় রাখা হয়েছে) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {advertisedTickets.map((item) => (
+                        <div key={item} className="group relative bg-white dark:bg-[#141416] border border-zinc-200/80 dark:border-zinc-800/80 rounded-[32px] p-4 shadow-md hover:shadow-2xl hover:shadow-[#039855]/10 dark:hover:shadow-[#039855]/5 transition-all duration-500 flex flex-col justify-between">
+                            
+                            {/* Image Box Container with Overlap Styling (image_1.png অনুপ্রাণিত) */}
+                            <div className="h-48 bg-zinc-100 dark:bg-[#1e1e22] rounded-[24px] relative overflow-hidden mb-6 flex items-center justify-center border border-zinc-200/40 dark:border-zinc-800/30">
+                                <span className="text-zinc-400 dark:text-zinc-600 font-medium text-sm select-none">Ticket Banner Image</span>
+                                
+                                {/* Transport Type Floating Tag */}
+                                <span className="absolute top-4 left-4 bg-white/90 dark:bg-[#141416]/90 backdrop-blur-md text-zinc-900 dark:text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-sm border border-zinc-200/50 dark:border-zinc-800/50 uppercase tracking-wider">
+                                    Bus
+                                </span>
+
+                                {/* Premium Spark Tag */}
+                                <span className="absolute top-4 right-4 bg-[#F05A28] text-white text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">
+                                    Featured
+                                </span>
+                            </div>
+
+                            {/* Content Section ( white card in image_1.png ) */}
+                            <div className="px-2">
+                                {/* Title */}
+                                <h3 className="text-2xl font-extrabold text-zinc-900 dark:text-white tracking-tight mb-2 group-hover:text-[#039855] transition-colors">
+                                    Dhaka To Cox's Bazar
+                                </h3>
+
+                                {/* Price and Seats Count */}
+                                <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-4 mb-4">
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-3xl font-black text-[#039855]">$45.00</span>
+                                        <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">/ seat</span>
+                                    </div>
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-lg text-zinc-600 dark:text-zinc-400">
+                                        <FiLayers size={12} className="text-[#F05A28]" /> 12 Seats Left
+                                    </span>
+                                </div>
+
+                                {/* Perks Rendered as Flex Badges */}
+                                <div className="mb-6">
+                                    <p className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">Included Amenities</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {["AC Sleeper", "Wi-Fi", "Water Bottle"].map((perk, idx) => (
+                                            <span key={idx} className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 bg-zinc-50 dark:bg-[#1a1a1e] border border-zinc-200/60 dark:border-zinc-800/60 text-zinc-700 dark:text-zinc-300 rounded-lg">
+                                                <FiCheck className="text-[#039855]" size={12} /> {perk}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Action Button */}
+                            <div className="px-2 pt-2">
+                                <Button
+                                    as={Link}
+                                    href="/tickets/123" // উদাহরণ আইডি (ডাইনামিক ডেটার সাথে আইডি সেট হবে)
+                                    className="w-full h-12 bg-zinc-900 hover:bg-[#039855] dark:bg-zinc-800 dark:hover:bg-[#039855] text-white font-bold rounded-2xl shadow-lg hover:shadow-[#039855]/20 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                                >
+                                    See Details <FiArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                </Button>
+                            </div>
+
+                        </div>
+                    ))}
+                </div>
+
             </div>
         </section>
     );
