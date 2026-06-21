@@ -15,7 +15,7 @@ const Footer = () => {
                     {/* Brand Info */}
                     <div className="flex flex-col gap-6">
                         <Link href="/" className="inline-block">
-                            <Image src={logo} alt="Logo" width={140} height={40} className="dark:invert" />
+                            <Image src={logo} alt="Logo" width={140} height={40} />
                         </Link>
                         <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
                             Your ultimate ticket booking platform. Experience safe, secure, and instant travel arrangements across the country.
