@@ -7,13 +7,14 @@ import { FiMail, FiLock, FiUser, FiCamera } from "react-icons/fi";
 import Image from "next/image";
 import logo from '@/assets/images/logo.png';
 import { authClient } from "@/lib/auth-client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
 export default function SignUp() {
-    const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirectTo') || "/";
+    // const searchParams = useSearchParams();
+    // const redirectTo = searchParams.get('redirectTo') || "/";
+    const redirectTo ="/";
     const [loading, setLoading] = useState(false);
     const [socialLoading, setSocialLoading] = useState(false);
     const [imageFile, setImageFile] = useState(null);

@@ -7,12 +7,13 @@ import { FiMail, FiLock } from "react-icons/fi";
 import Image from "next/image";
 import logo from '@/assets/images/logo.png';
 import { authClient } from "@/lib/auth-client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function SignIn() {
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo') || "/";
+  // const searchParams = useSearchParams();
+  // const redirectTo = searchParams.get('redirectTo') || "/";
+  const redirectTo = "/";
   const [loading, setLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
   const router = useRouter();
