@@ -1,10 +1,11 @@
-import React from 'react';
+import { DashboardSidebar } from '@/Components/dashboard/DashboardSidebar';
 
 const DashboardLayout = ({children}) => {
     return (
-        <div className='flex gap-2 min-h-screen'>
-            <div className='flex-1'>{children}</div>
-        </div>
+        <main className='flex gap-2 min-h-screen'>
+            <DashboardSidebar/>
+            <div className='flex-1 pt-40'>{children}</div>
+        </main>
     );
 };
 
