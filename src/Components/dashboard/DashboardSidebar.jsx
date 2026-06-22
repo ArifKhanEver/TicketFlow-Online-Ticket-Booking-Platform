@@ -5,10 +5,10 @@ import logo from '@/assets/images/logo.png';
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { 
-  FiHome, FiUser, FiCreditCard, FiPlusCircle, FiList, 
-  FiInbox, FiPieChart, FiShield, FiUsers, FiCheckSquare, 
-  FiLayers, FiCompass, FiInfo, FiLogOut, FiMenu 
+import {
+  FiHome, FiUser, FiCreditCard, FiPlusCircle, FiList,
+  FiInbox, FiPieChart, FiShield, FiUsers, FiCheckSquare,
+  FiLayers, FiCompass, FiInfo, FiLogOut, FiMenu
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 
@@ -18,7 +18,6 @@ export function DashboardSidebar() {
   const user = session?.user;
   const pathname = usePathname();
 
-  // ডক অনুযায়ী User, Vendor এবং Admin এর রাউটগুলো 
   const roleNavItems = {
     user: [
       { icon: FiUser, label: "User Profile", href: "/dashboard/user" },
@@ -29,7 +28,7 @@ export function DashboardSidebar() {
       { icon: FiUser, label: "Vendor Profile", href: "/dashboard/vendor" },
       { icon: FiPlusCircle, label: "Add Ticket", href: "/dashboard/vendor/add-ticket" },
       { icon: FiList, label: "My Added Tickets", href: "/dashboard/vendor/my-tickets" },
-      { icon: FiInbox, label: "Requested Bookings", href: "/dashboard/vendor/requests" },
+      { icon: FiInbox, label: "Requested Bookings", href: "/dashboard/vendor/requested-bookings" },
       { icon: FiPieChart, label: "Revenue Overview", href: "/dashboard/vendor/revenue" },
     ],
     admin: [
@@ -46,6 +45,14 @@ export function DashboardSidebar() {
     { icon: FiInfo, label: "About Platform", href: "/about" },
   ];
 
+  const roleColors = {
+    admin: "bg-[#7C3AED]/10 text-[#7C3AED] border-[#7C3AED]/20",
+    vendor: "bg-[#F05A28]/10 text-[#F05A28] border-[#F05A28]/20",
+    user: "bg-[#039855]/10 text-[#039855] border-[#039855]/20",
+  };
+
+  const roleTheme = roleColors[user?.role] || roleColors.user;
+
   const currentRoleLinks = roleNavItems[user?.role || "user"] || [];
 
   const handleSignOut = async () => {
@@ -61,7 +68,7 @@ export function DashboardSidebar() {
   const navContent = (
     <nav className="flex flex-col h-full justify-between gap-4">
       <div className="flex flex-col gap-4">
-        
+
         {/* User Profile Card (Light & Dark Mode Supported) */}
         <div className="w-full max-w-[240px] bg-gray-50 dark:bg-[#141416]/40 border border-gray-200 dark:border-zinc-800/80 backdrop-blur-md p-4 rounded-xl flex flex-col gap-3 shadow-sm dark:shadow-xl">
           <div className="mx-auto mb-1">
@@ -81,11 +88,11 @@ export function DashboardSidebar() {
               <h3 className="text-sm font-bold tracking-tight text-black dark:text-white leading-tight truncate">
                 {user?.name || "User Name"}
               </h3>
-              <span className="text-[10px] text-gray-500 dark:text-zinc-400 truncate">
+              <span className="text-[11px] text-gray-500 dark:text-zinc-400 truncate">
                 {user?.email || "user@email.com"}
               </span>
-              <span className="text-[10px] font-bold mt-0.5 capitalize px-1.5 py-0.5 bg-[#039855]/10 text-[#039855] border border-[#039855]/20 rounded w-max">
-                {user?.role || "User"}
+              <span className={`text-[12px] font-bold mt-0.5 capitalize px-1.5 py-0.5 border rounded w-max ${roleTheme}`}>
+                {user?.role || "user"}
               </span>
             </div>
           </div>
@@ -103,8 +110,8 @@ export function DashboardSidebar() {
                 href={item.href}
                 key={item.label}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 ${isActive
-                    ? "bg-[#039855] text-white font-bold shadow-md shadow-[#039855]/20"
-                    : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-black dark:hover:text-white font-medium"
+                  ? "bg-[#039855] text-white font-bold shadow-md shadow-[#039855]/20"
+                  : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-black dark:hover:text-white font-medium"
                   }`}
               >
                 <item.icon className="size-4" />
@@ -154,8 +161,8 @@ export function DashboardSidebar() {
 
       {/* Mobile Drawer View */}
       <Drawer>
-        <Button 
-          variant="flat" 
+        <Button
+          variant="flat"
           className="lg:hidden m-4 bg-white dark:bg-[#141416] border border-gray-200 dark:border-zinc-800 text-black dark:text-white font-bold"
         >
           <FiMenu className="size-5" />

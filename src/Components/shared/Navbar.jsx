@@ -144,11 +144,11 @@ export default function Navbar() {
                 </div>
                 <Dropdown.Menu>
                   <Dropdown.Item id="dashboard" textValue="Dashboard">
-                    <Link href={ session?.user.role === 'admin' ? '/dashboard/admin' : session?.user.role === 'vendor' ? '/dashboard/vendor' : '/dashboard/user'}>Dashboard</Link>
+                    <Link href={ session?.user.role === 'admin' ? '/dashboard/admin' : session?.user.role === 'vendor' ? '/dashboard/vendor' : '/dashboard/user'}>My Profile</Link>
                   </Dropdown.Item>
-                  <Dropdown.Item id="profile" textValue="Profile">
+                  {/* <Dropdown.Item id="profile" textValue="Profile">
                     <Link href={"/profile"}>My Profile</Link>
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
                   <Dropdown.Item id="logout" textValue="Logout" variant="danger">
                     <button onClick={handleSignOut} className="flex w-full items-center justify-between gap-2 cursor-pointer">
                       <Label>Log Out</Label>
