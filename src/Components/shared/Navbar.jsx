@@ -64,7 +64,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/", id: "home" },
     { name: "About", href: "/about", id: "about" },
-    { name: "All Tickets", href: "/all-tickets", id: "tickets" },
+    { name: "All Tickets", href: "/tickets", id: "tickets" },
   ];
 
   if (mounted && session?.user) {
