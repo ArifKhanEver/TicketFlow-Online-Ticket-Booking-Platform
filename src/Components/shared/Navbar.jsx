@@ -1,6 +1,7 @@
 'use client';
 import logo from '@/assets/images/logo.png';
 import { useState, useEffect } from "react";
+import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
@@ -8,6 +9,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
+import { BsGear, BsPersonSquare } from 'react-icons/bs';
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 
 const containerVariants = {
   hidden: { opacity: 0, y: -15, scale: 0.95 },
@@ -102,18 +105,62 @@ export default function Navbar() {
 
           {/* USER INFO BEFORE SIGN OUT (Desktop) */}
           {session?.user && (
-            <div className="flex items-center gap-2">
-              <Image width={10} height={10} src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700" alt="Avatar" />
-              <div className='flex flex-col gap-0'>
-              <span className="text-sm font-semibold capitalize">{session.user.role || "Role"}</span>
-              <span className="text-sm font-semibold capitalize">{session.user.name}</span>
-              </div>
-            </div>
+            // <div className="flex items-center gap-2">
+            //   <Image width={10} height={10} src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700" alt="Avatar" />
+            //   <div className='flex flex-col gap-0'>
+            //   <span className="text-sm font-semibold capitalize">{session.user.role || "Role"}</span>
+            //   <span className="text-sm font-semibold capitalize">{session.user.name}</span>
+            //   </div>
+            // </div>
+            <Dropdown>
+              <Dropdown.Trigger className="rounded-full flex gap-2">
+                <Avatar>
+                  <Avatar.Image
+                    alt="Junior Garcia"
+                    src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"}
+                  />
+                  <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                </Avatar>
+                <div className='flex flex-col text-left'>
+                  <span className="text-sm font-semibold capitalize">{session.user.role || "Role"}</span>
+                  <span className="text-sm font-semibold capitalize">{session.user.name}</span>
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Popover className="p-2">
+                <div className="px-3 pt-3 pb-1">
+                  <div className="flex items-center gap-2">
+                    <Avatar size="sm">
+                      <Avatar.Image
+                        alt="Junior Garcia"
+                        src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"}
+                      />
+                      <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                    </Avatar>
+                    <div className="flex flex-col gap-0">
+                      <p className="text-sm leading-5 font-medium">{session?.user.name}</p>
+                      <p className="text-xs leading-none text-muted">{session?.user.email}</p>
+                    </div>
+                  </div>
+                </div>
+                <Dropdown.Menu>
+                  <Dropdown.Item id="dashboard" textValue="Dashboard">
+                    <Link href={ session?.user.role === 'admin' ? '/dashboard/admin' : session?.user.role === 'vendor' ? '/dashboard/vendor' : '/dashboard/user'}>Dashboard</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item id="profile" textValue="Profile">
+                    <Link href={"/profile"}>Profile</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item id="logout" textValue="Logout" variant="danger">
+                    <button onClick={handleSignOut} className="flex w-full items-center justify-between gap-2 cursor-pointer">
+                      <Label>Log Out</Label>
+                      <FaArrowUpRightFromSquare className="size-3.5 text-danger" />
+                    </button>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
+            </Dropdown>
           )}
 
-          {session ? (
-            <button onClick={handleSignOut} className="text-sm font-medium hover:text-red-500 dark:hover:text-red-400 transition-colors">Sign Out</button>
-          ) : (
+          {session ? "" : (
             <Link href="/auth/signin" className="text-sm font-medium text-[#5B51F9]">Sign In</Link>
           )}
 
