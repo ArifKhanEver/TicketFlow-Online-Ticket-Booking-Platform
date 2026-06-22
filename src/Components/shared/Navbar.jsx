@@ -147,7 +147,7 @@ export default function Navbar() {
                     <Link href={ session?.user.role === 'admin' ? '/dashboard/admin' : session?.user.role === 'vendor' ? '/dashboard/vendor' : '/dashboard/user'}>Dashboard</Link>
                   </Dropdown.Item>
                   <Dropdown.Item id="profile" textValue="Profile">
-                    <Link href={"/profile"}>Profile</Link>
+                    <Link href={"/profile"}>My Profile</Link>
                   </Dropdown.Item>
                   <Dropdown.Item id="logout" textValue="Logout" variant="danger">
                     <button onClick={handleSignOut} className="flex w-full items-center justify-between gap-2 cursor-pointer">
