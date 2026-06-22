@@ -81,9 +81,10 @@ const Footer = () => {
                         &copy; {new Date().getFullYear()} TicketFlow. All rights reserved.
                     </p>
                     <div className="flex gap-4">
-                        <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={40} height={20} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
-                        <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={40} height={20} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
-                        <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width={40} height={20} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+                        <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={90} height={20} className="h-4" />
+                        <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={40} height={20} className="h-6" />
+                        <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg/960px-Visa_Inc._logo_%282021%E2%80%93present%29.svg.png" alt="Visa" width={40} height={15} className="h-4" />
+                        <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/960px-Stripe_Logo%2C_revised_2016.svg.png" alt="Visa" width={50} height={15} className="h-5" />
                     </div>
                 </div>
             </div>
