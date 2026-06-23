@@ -1,4 +1,5 @@
 'use client'
+import React, { useState, useEffect } from "react";
 import { Button, Drawer } from "@heroui/react";
 import Image from "next/image";
 import logo from '@/assets/images/logo.png';
@@ -14,9 +15,17 @@ import toast from "react-hot-toast";
 
 export function DashboardSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
+  
+  // Hydration safety wrapper
+  const [mounted, setMounted] = useState(false);
+  
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const roleNavItems = {
     user: [
@@ -51,9 +60,9 @@ export function DashboardSidebar() {
     user: "bg-[#039855]/10 text-[#039855] border-[#039855]/20",
   };
 
-  const roleTheme = roleColors[user?.role] || roleColors.user;
-
-  const currentRoleLinks = roleNavItems[user?.role || "user"] || [];
+  const currentRole = mounted ? (user?.role || "user") : "user";
+  const roleTheme = roleColors[currentRole];
+  const currentRoleLinks = roleNavItems[currentRole] || [];
 
   const handleSignOut = async () => {
     try {
@@ -69,7 +78,7 @@ export function DashboardSidebar() {
     <nav className="flex flex-col h-full justify-between gap-4">
       <div className="flex flex-col gap-4">
 
-        {/* User Profile Card (Light & Dark Mode Supported) */}
+        {/* User Profile Card */}
         <div className="w-full max-w-[240px] bg-gray-50 dark:bg-[#141416]/40 border border-gray-200 dark:border-zinc-800/80 backdrop-blur-md p-4 rounded-xl flex flex-col gap-3 shadow-sm dark:shadow-xl">
           <div className="mx-auto mb-1">
             <Image src={logo} height={32} width={120} alt="TicketFlow Logo" priority />
@@ -78,21 +87,22 @@ export function DashboardSidebar() {
           <div className="flex items-center gap-3">
             <div className="relative h-11 w-11 rounded-full overflow-hidden border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900 flex-shrink-0">
               <Image
-                src={user?.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"}
+                src={mounted && user?.image ? user.image : "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"}
                 fill
+                sizes="44px" 
                 alt="Avatar"
                 className="object-cover"
               />
             </div>
             <div className="flex flex-col min-w-0">
               <h3 className="text-sm font-bold tracking-tight text-black dark:text-white leading-tight truncate">
-                {user?.name || "User Name"}
+                {mounted ? (user?.name || "User Name") : "User Name"}
               </h3>
               <span className="text-[11px] text-gray-500 dark:text-zinc-400 truncate">
-                {user?.email || "user@email.com"}
+                {mounted ? (user?.email || "user@email.com") : "user@email.com"}
               </span>
               <span className={`text-[12px] font-bold mt-0.5 capitalize px-1.5 py-0.5 border rounded w-max ${roleTheme}`}>
-                {user?.role || "user"}
+                {currentRole}
               </span>
             </div>
           </div>
@@ -112,7 +122,7 @@ export function DashboardSidebar() {
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 ${isActive
                   ? "bg-[#039855] text-white font-bold shadow-md shadow-[#039855]/20"
                   : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-black dark:hover:text-white font-medium"
-                  }`}
+                }`}
               >
                 <item.icon className="size-4" />
                 {item.label}

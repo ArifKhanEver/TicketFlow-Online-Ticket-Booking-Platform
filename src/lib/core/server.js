@@ -3,7 +3,6 @@ import { getUserToken } from "./session";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
-
 export const authHeader = async()=> {
     const token = await getUserToken()
     const header = token? {
@@ -23,13 +22,13 @@ export const serverMutation = async (path, data, method = "POST") => {
             method: method,
             headers: {
                 'content-type': 'application/json',
-                ... await authHeader()
+                // ... await authHeader()
             },
             body: JSON.stringify(data)
         })
         if (!res.ok) {
             const errorHtml = await res.text();
-            console.error(`🚨 Server Error [Status ${res.status}]:`, errorHtml.slice(0, 500)); // প্রথম ৫০০ ক্যারেক্টার লগ করা
+            console.error(`🚨 Server Error [Status ${res.status}]:`, errorHtml.slice(0, 500)); 
             return { error: `Server returned status ${res.status}` };
         }
 

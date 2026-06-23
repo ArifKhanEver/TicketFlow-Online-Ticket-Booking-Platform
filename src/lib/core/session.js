@@ -20,7 +20,7 @@ export const getUserToken = async()=>{
 export const requiredRole = async(role)=>{
     const user = await getUser()
     if(!user){
-        redirect('/signin')
+        redirect('/auth/signin')
     }
     if(user.role !== role){
         return redirect('/unauthorized')
