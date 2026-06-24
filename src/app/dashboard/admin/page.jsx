@@ -34,7 +34,7 @@ export default function AdminProfile() {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-5xl mx-auto p-4 md:p-0"
+            className="max-w-5xl mx-auto p-4 md:p-0 md:pb-4"
         >
             <Card className="bg-white dark:bg-[#111113] border-none shadow-2xl rounded-[32px] overflow-hidden relative">
 

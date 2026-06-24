@@ -91,166 +91,243 @@ export default function ManageUsersPage() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full max-w-5xl mx-auto px-4 md:px-6 space-y-5 pt-4"
+      className="w-full max-w-5xl mx-auto px-4 md:px-6 space-y-6 pt-4"
     >
-      {/* Upper Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 gap-3">
+      {/* Upper Header Layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-5 gap-4">
         <div>
-          <h1 className="text-xl md:text-2xl font-black text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
-            <FiUsers className="text-[#039855]" size={24} /> Manage Users
+          <h1 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+            <FiUsers className="text-[#039855]" size={26} /> Manage Users
           </h1>
-          <p className="text-[11px] font-semibold text-zinc-400 mt-0.5">
+          <p className="text-xs font-semibold text-zinc-400 mt-1">
             Moderate global user access tokens, escalate role privileges, and enforce fraud mitigation filters.
           </p>
         </div>
-        <Chip variant="flat" color="success" className="font-bold text-[10px] uppercase px-2 h-6 rounded-md">
+        <Chip variant="flat" color="success" className="font-bold text-xs uppercase px-2.5 h-7 rounded-lg">
           Total Users: {users.length}
         </Chip>
       </div>
 
-      {/* Compact Filter Input */}
-      <div className="w-full max-w-sm relative flex items-center">
-        <FiSearch className="absolute left-3.5 text-zinc-400 z-10" size={14} />
+      {/* Optimized Search Input (Font Size Increased to text-sm) */}
+      <div className="w-full max-w-md relative flex items-center">
+        <FiSearch className="absolute left-4 text-zinc-400 z-10" size={16} />
         <input
           type="text"
           placeholder="Search by Name or Email address..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full h-9 pl-10 pr-4 bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 focus:border-[#039855] focus:outline-none rounded-xl shadow-xs text-xs font-medium text-zinc-900 dark:text-white transition-colors placeholder:text-zinc-400"
+          className="w-full h-11 pl-11 pr-4 bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 focus:border-[#039855] focus:outline-none rounded-xl shadow-sm text-sm font-medium text-zinc-900 dark:text-white transition-colors placeholder:text-zinc-400"
         />
       </div>
 
-      {/* COMPACT & BUGBUSTED NATIVE INDUSTRIAL TABLE */}
+      {/* MAIN CONTAINER PLATFORM */}
       {filteredUsers.length > 0 ? (
-        <div className="w-full border border-zinc-200 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white dark:bg-[#111113] shadow-xs overflow-x-auto">
-          <table className="w-full border-collapse text-left text-xs">
-            <thead>
-              <tr className="bg-zinc-50 dark:bg-[#18181b] border-b border-zinc-200 dark:border-zinc-800 text-zinc-400 font-black text-[10px] uppercase tracking-wider h-10">
-                <th className="px-5 align-middle">User Signature Profile</th>
-                <th className="px-5 align-middle">Email Address</th>
-                <th className="px-5 align-middle text-center">Authorization Role</th>
-                <th className="px-5 align-middle text-center">Security Status</th>
-                <th className="px-5 align-middle text-center">Administrative Control</th>
-              </tr>
-            </thead>
-            
-            <tbody>
-              <AnimatePresence mode="popLayout">
-                {filteredUsers.map((userInstance) => {
-                  const isVendor = userInstance.role === 'vendor';
-                  const isAdmin = userInstance.role === 'admin';
+        <div className="w-full">
+          
+          {/* A) MOBILE VIEW: Stacked Grid Cards Layout (Hides on Desktop screen md) */}
+          <div className="grid grid-cols-1 gap-4 md:hidden">
+            <AnimatePresence mode="popLayout">
+              {filteredUsers.map((userInstance) => {
+                const isVendor = userInstance.role === 'vendor';
+                const isAdmin = userInstance.role === 'admin';
 
-                  return (
-                    <tr 
-                      key={userInstance._id}
-                      className="border-b border-zinc-100 dark:border-zinc-800/50 hover:bg-zinc-50/40 dark:hover:bg-[#141416]/30 transition-colors"
-                    >
-                      {/* 1. Name Profile Cell (Compact py-2) */}
-                      <td className="px-5 py-2 align-middle whitespace-nowrap">
-                        <div className="flex items-center gap-2.5">
-                          <Avatar 
-                            src={userInstance.avatar} 
-                            name={userInstance.name} 
-                            className="w-6 h-6 border border-zinc-200 dark:border-zinc-700 text-[10px]" 
-                          />
-                          <span className="text-xs font-bold text-zinc-900 dark:text-white tracking-tight">
-                            {userInstance.name}
-                          </span>
+                return (
+                  <motion.div
+                    key={userInstance._id}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="bg-white dark:bg-[#111113] p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <Avatar src={userInstance.avatar} name={userInstance.name} size="md" className="border border-zinc-200 dark:border-zinc-700" />
+                        <div>
+                          <p className="text-sm font-black text-zinc-900 dark:text-white">{userInstance.name}</p>
+                          <p className="text-xs font-semibold text-zinc-400 flex items-center gap-1 mt-0.5"><FiMail size={12} /> {userInstance.email}</p>
                         </div>
-                      </td>
-                      
-                      {/* 2. Email Address Cell */}
-                      <td className="px-5 py-2 align-middle whitespace-nowrap font-medium text-zinc-500 dark:text-zinc-400 text-[11px]">
-                        <span className="flex items-center gap-1.5"><FiMail size={12} className="text-zinc-400 shrink-0" /> {userInstance.email}</span>
-                      </td>
-                      
-                      {/* 3. Role Badge Cell */}
-                      <td className="px-5 py-2 align-middle text-center whitespace-nowrap">
-                        <Chip
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1 border-t border-dashed border-zinc-100 dark:border-zinc-800/60">
+                      <Chip size="sm" variant="flat" color={isAdmin ? "danger" : isVendor ? "primary" : "default"} className="font-black uppercase text-[10px] tracking-wider rounded-md">
+                        {userInstance.role}
+                      </Chip>
+                      {userInstance.isFraud ? (
+                        <span className="inline-flex items-center gap-1 font-black text-red-500 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">
+                          <FiAlertTriangle size={10} /> Fraudulent
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 font-black text-[#039855] bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">
+                          <FiCheckCircle size={10} /> Verified
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Mobile Administrative Control Pill Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                      <Button
+                        size="sm"
+                        variant="flat"
+                        isDisabled={isAdmin || userInstance.isFraud}
+                        onClick={() => handleRoleChange(userInstance._id, 'admin')}
+                        className="font-black text-xs uppercase tracking-wider rounded-xl h-9 bg-purple-500/10 text-purple-600 dark:text-purple-400"
+                        startContent={<FiShield size={13} />}
+                      >
+                        Admin
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="flat"
+                        color="primary"
+                        isDisabled={isVendor || userInstance.isFraud}
+                        onClick={() => handleRoleChange(userInstance._id, 'vendor')}
+                        className="font-black text-xs uppercase tracking-wider rounded-xl h-9 bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                        startContent={<FiUserCheck size={13} />}
+                      >
+                        Vendor
+                      </Button>
+                      {isVendor && (
+                        <Button
                           size="sm"
-                          variant="flat"
-                          color={isAdmin ? "danger" : isVendor ? "primary" : "default"}
-                          className="font-black uppercase text-[9px] tracking-wider h-5 rounded-md px-1.5"
+                          color="danger"
+                          variant={userInstance.isFraud ? "flat" : "solid"}
+                          isDisabled={userInstance.isFraud}
+                          onClick={() => handleMarkAsFraud(userInstance._id, userInstance.name)}
+                          className="font-black text-xs uppercase tracking-wider rounded-xl h-9"
+                          startContent={<FiAlertTriangle size={13} />}
                         >
-                          {userInstance.role}
-                        </Chip>
-                      </td>
-                      
-                      {/* 4. Security Flags */}
-                      <td className="px-5 py-2 align-middle text-center whitespace-nowrap">
-                        {userInstance.isFraud ? (
-                          <span className="inline-flex items-center gap-1 font-black text-red-500 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider text-[9px]">
-                            <FiAlertTriangle size={10} /> Fraudulent
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 font-black text-[#039855] bg-green-500/10 border border-green-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider text-[9px]">
-                            <FiCheckCircle size={10} /> Verified
-                          </span>
-                        )}
-                      </td>
+                          {userInstance.isFraud ? "Flagged Fraud" : "Mark Fraud"}
+                        </Button>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
 
-                      {/* 5. RE-DESIGNED ADMINISTRATIVE BUTTONS MATRICES */}
-                      <td className="px-5 py-2 align-middle text-center whitespace-nowrap">
-                        <div className="flex items-center justify-center gap-1.5">
-                          
-                          {/* Premium Action Pill: Make Admin */}
-                          <Button
+          {/* B) DESKTOP VIEW: Premium Compact Table (Hidden on Mobile view, scaled font size) */}
+          <div className="hidden md:block w-full border border-zinc-200 dark:border-zinc-800/80 rounded-2xl overflow-scroll bg-white dark:bg-[#111113] shadow-sm">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="bg-zinc-50 dark:bg-[#18181b] border-b border-zinc-200 dark:border-zinc-800 text-zinc-400 font-black text-xs uppercase tracking-wider h-12">
+                  <th className="px-6 align-middle">User Profile</th>
+                  <th className="px-6 align-middle">Email Address</th>
+                  <th className="px-6 align-middle text-center">Authorization Role</th>
+                  <th className="px-6 align-middle text-center">Security Status</th>
+                  <th className="px-6 align-middle text-center">Administrative Control</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <AnimatePresence mode="popLayout">
+                  {filteredUsers.map((userInstance) => {
+                    const isVendor = userInstance.role === 'vendor';
+                    const isAdmin = userInstance.role === 'admin';
+
+                    return (
+                      <tr 
+                        key={userInstance._id}
+                        className="border-b border-zinc-100 dark:border-zinc-800/50 hover:bg-zinc-50/40 dark:hover:bg-[#141416]/30 transition-colors"
+                      >
+                        {/* Font Size Scaling: text-sm font-black for clear names */}
+                        <td className="px-6 py-3.5 align-middle whitespace-nowrap">
+                          <div className="flex items-center gap-3">
+                            <Avatar src={userInstance.avatar} name={userInstance.name} className="w-8 h-8 border border-zinc-200 dark:border-zinc-700 text-xs" />
+                            <span className="text-sm font-black text-zinc-900 dark:text-white tracking-tight">
+                              {userInstance.name}
+                            </span>
+                          </div>
+                        </td>
+                        
+                        {/* Font Size Scaling: text-xs font-semibold for secondary email strings */}
+                        <td className="px-6 py-3.5 align-middle whitespace-nowrap text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                          <span className="flex items-center gap-2"><FiMail size={14} className="text-zinc-400 shrink-0" /> {userInstance.email}</span>
+                        </td>
+                        
+                        <td className="px-6 py-3.5 align-middle text-center whitespace-nowrap">
+                          <Chip
                             size="sm"
                             variant="flat"
-                            color="secondary"
-                            isDisabled={isAdmin || userInstance.isFraud}
-                            onClick={() => handleRoleChange(userInstance._id, 'admin')}
-                            className="font-black text-[9px] uppercase tracking-wider rounded-lg h-7 px-2.5 bg-purple-500/10 hover:bg-purple-500 text-purple-600 hover:text-white transition-all duration-200"
-                            startContent={<FiShield size={11} className="shrink-0" />}
+                            color={isAdmin ? "danger" : isVendor ? "primary" : "default"}
+                            className="font-black uppercase text-[10px] tracking-wider h-6 rounded-md px-2"
                           >
-                            Make Admin
-                          </Button>
-                          
-                          {/* Premium Action Pill: Make Vendor */}
-                          <Button
-                            size="sm"
-                            variant="flat"
-                            color="primary"
-                            isDisabled={isVendor || userInstance.isFraud}
-                            onClick={() => handleRoleChange(userInstance._id, 'vendor')}
-                            className="font-black text-[9px] uppercase tracking-wider rounded-lg h-7 px-2.5 bg-blue-500/10 hover:bg-blue-600 text-blue-600 hover:text-white transition-all duration-200"
-                            startContent={<FiUserCheck size={11} className="shrink-0" />}
-                          >
-                            Make Vendor
-                          </Button>
+                            {userInstance.role}
+                          </Chip>
+                        </td>
+                        
+                        <td className="px-6 py-3.5 align-middle text-center whitespace-nowrap">
+                          {userInstance.isFraud ? (
+                            <span className="inline-flex items-center gap-1 font-black text-red-500 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-md uppercase tracking-wider text-[10px]">
+                              <FiAlertTriangle size={11} /> Fraudulent
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 font-black text-[#039855] bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-md uppercase tracking-wider text-[10px]">
+                              <FiCheckCircle size={11} /> Verified
+                            </span>
+                          )}
+                        </td>
 
-                          {/* Premium Action Pill: Mark as Fraud (Strict Conditional Rendering) */}
-                          {isVendor && (
+                        {/* RE-DESIGNED PILL BUTTONS (Font size scaled to text-xs) */}
+                        <td className="px-6 py-3.5 align-middle text-center whitespace-nowrap">
+                          <div className="flex items-center justify-center gap-2">
+                            
                             <Button
                               size="sm"
-                              variant={userInstance.isFraud ? "flat" : "solid"}
-                              color="danger"
-                              isDisabled={userInstance.isFraud}
-                              onClick={() => handleMarkAsFraud(userInstance._id, userInstance.name)}
-                              className={`font-black text-[9px] uppercase tracking-wider rounded-lg h-7 px-2.5 transition-all duration-200 ${
-                                userInstance.isFraud 
-                                  ? "bg-red-500/10 text-red-400" 
-                                  : "bg-red-500 hover:bg-red-600 text-white shadow-xs shadow-red-500/20"
-                              }`}
-                              startContent={<FiAlertTriangle size={11} className="shrink-0" />}
+                              variant="flat"
+                              isDisabled={isAdmin || userInstance.isFraud}
+                              onClick={() => handleRoleChange(userInstance._id, 'admin')}
+                              className="font-black text-xs uppercase tracking-wider rounded-xl h-9 px-3.5 bg-purple-500/10 hover:bg-purple-600 text-purple-600 hover:text-white transition-all duration-200"
+                              startContent={<FiShield size={13} className="shrink-0" />}
                             >
-                              {userInstance.isFraud ? "Flagged Fraud" : "Mark As Fraud"}
+                              Make Admin
                             </Button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </AnimatePresence>
-            </tbody>
-          </table>
+                            
+                            <Button
+                              size="sm"
+                              variant="flat"
+                              color="primary"
+                              isDisabled={isVendor || userInstance.isFraud}
+                              onClick={() => handleRoleChange(userInstance._id, 'vendor')}
+                              className="font-black text-xs uppercase tracking-wider rounded-xl h-9 px-3.5 bg-blue-500/10 hover:bg-blue-600 text-blue-600 hover:text-white transition-all duration-200"
+                              startContent={<FiUserCheck size={13} className="shrink-0" />}
+                            >
+                              Make Vendor
+                            </Button>
+
+                            {isVendor && (
+                              <Button
+                                size="sm"
+                                variant={userInstance.isFraud ? "flat" : "solid"}
+                                color="danger"
+                                isDisabled={userInstance.isFraud}
+                                onClick={() => handleMarkAsFraud(userInstance._id, userInstance.name)}
+                                className={`font-black text-xs uppercase tracking-wider rounded-xl h-9 px-3.5 transition-all duration-200 ${
+                                  userInstance.isFraud 
+                                    ? "bg-red-500/10 text-red-400" 
+                                    : "bg-red-500 hover:bg-red-600 text-white shadow-md shadow-red-500/20"
+                                }`}
+                                startContent={<FiAlertTriangle size={13} className="shrink-0" />}
+                              >
+                                {userInstance.isFraud ? "Flagged Fraud" : "Mark As Fraud"}
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       ) : (
-        /* Fallback Empty View */
-        <div className="text-center py-16 bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 rounded-xl max-w-xl mx-auto">
-          <FiInfo size={28} className="mx-auto text-zinc-400 mb-2" />
-          <p className="text-zinc-500 dark:text-zinc-400 font-bold text-xs">
+        <div className="text-center py-16 bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-xl mx-auto">
+          <FiInfo size={32} className="mx-auto text-zinc-400 mb-2" />
+          <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm">
             No profile records correspond to your query matrix criteria.
           </p>
         </div>
