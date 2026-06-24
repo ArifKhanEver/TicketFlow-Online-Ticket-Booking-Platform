@@ -42,7 +42,7 @@ export function DashboardSidebar() {
     ],
     admin: [
       { icon: FiShield, label: "Admin Profile", href: "/dashboard/admin" },
-      { icon: FiUsers, label: "Manage Users", href: "/dashboard/admin/users" },
+      { icon: FiUsers, label: "Manage Users", href: "/dashboard/admin/manage-users" },
       { icon: FiCheckSquare, label: "Manage Tickets", href: "/dashboard/admin/tickets" },
       { icon: FiLayers, label: "All Bookings", href: "/dashboard/admin/bookings" },
     ]
