@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { BiArrowToTop } from 'react-icons/bi';
-import { addTicket } from '@/lib/actions/addTicket';
+import { addTicket } from '@/lib/actions/ticket
 
 export default function AddTicketPage() {
     const router = useRouter();

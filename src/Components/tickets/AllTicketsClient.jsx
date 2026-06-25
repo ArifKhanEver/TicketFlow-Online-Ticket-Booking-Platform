@@ -6,7 +6,7 @@ import { FiClock, FiSearch, FiSliders, FiChevronDown, FiFilter } from 'react-ico
 import { motion } from 'framer-motion';
 import TicketCard from './TicketCard';
 
-export default function AllTicketsClient({ initialTickets }) {
+export default function AllTicketsClient({ initialTickets=[] }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSort, setSelectedSort] = useState('Recommended');
     const [selectedTransports, setSelectedTransports] = useState([]);

@@ -8,3 +8,7 @@ export const getMyBookedTickets = async(path, userId)=>{
 export const getRequestedBookings = async(path, vendorId)=>{
     return serverFetch(`${path}?vendorId=${vendorId}`)
 }
+
+export const getAllBookings = async(role)=>{
+    return serverFetch(`/api/bookings/admin/all-bookings?role=${role}`)
+}
