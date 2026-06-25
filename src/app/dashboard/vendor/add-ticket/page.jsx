@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { Input, Button, Card } from "@heroui/react";
-import { 
-    FiPlusCircle, FiMapPin, FiCalendar, FiDollarSign, 
-    FiLayers, FiCamera, FiUser, FiMail, FiTag, FiTruck, FiClock 
+import {
+    FiPlusCircle, FiMapPin, FiCalendar, FiDollarSign,
+    FiLayers, FiCamera, FiUser, FiMail, FiTag, FiTruck, FiClock,
+    FiAlertTriangle
 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { authClient } from '@/lib/auth-client';
@@ -12,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { BiArrowToTop } from 'react-icons/bi';
-import { addTicket } from '@/lib/actions/ticket
+import { addTicket } from '@/lib/actions/ticket';
 
 export default function AddTicketPage() {
     const router = useRouter();
@@ -51,7 +52,7 @@ export default function AddTicketPage() {
         const price = Number(formData.get("price"));
         const quantity = Number(formData.get("quantity"));
         const departureDateTime = formData.get("departureDateTime");
-        const journeyDuration = Number(formData.get("journeyDuration")); 
+        const journeyDuration = Number(formData.get("journeyDuration"));
 
         if (!title || !from || !to || !transportType || !departureDateTime || !journeyDuration) {
             toast.error("Please fill in all required fields.");
@@ -85,7 +86,7 @@ export default function AddTicketPage() {
             const imgBBData = await imgBBRes.json();
 
             if (imgBBData.success) {
-                uploadedImageUrl = imgBBData.data.display_url; 
+                uploadedImageUrl = imgBBData.data.display_url;
             } else {
                 throw new Error("Failed to upload image to ImgBB.");
             }
@@ -108,7 +109,7 @@ export default function AddTicketPage() {
 
             const result = await addTicket('/api/tickets', ticketPayload);
 
-            if(result?.insertedId){
+            if (result?.insertedId) {
                 toast.success("Ticket added successfully! Waiting for Admin's verification.");
                 router.push("/dashboard/vendor/my-tickets");
             }
@@ -137,13 +138,13 @@ export default function AddTicketPage() {
     ];
 
     return (
-        <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+        <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-5xl mx-auto p-4 md:p-6 pb-16"
         >
             <Card className="w-full p-6 md:p-10 bg-white dark:bg-[#111113] border border-zinc-100 dark:border-zinc-900 shadow-2xl rounded-[32px] overflow-hidden relative">
-                
+
                 <div className="absolute top-0 left-0 w-full h-2.5 bg-[#F05A28]" />
 
                 {/* Header */}
@@ -158,7 +159,7 @@ export default function AddTicketPage() {
                 </div>
 
                 <form onSubmit={handleAddTicket} className="space-y-6 w-full">
-                    
+
                     {/* Title */}
                     <div className="w-full">
                         <label className={labelStyles}>Ticket Title / Fleet Name</label>
@@ -213,7 +214,7 @@ export default function AddTicketPage() {
                             <label className={labelStyles}>Transport Type</label>
                             <div className="relative flex items-center w-full">
                                 <FiTruck className="absolute left-4 text-zinc-400 dark:text-zinc-600 z-10" size={16} />
-                                <select 
+                                <select
                                     name="transportType"
                                     required
                                     className="w-full h-12 pl-12 pr-4 bg-white dark:bg-[#0A0A0C]/40 border-2 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white font-semibold text-sm rounded-xl outline-none transition-colors cursor-pointer focus:border-[#F05A28]/60 hover:border-zinc-300 dark:hover:border-zinc-700"
@@ -301,8 +302,8 @@ export default function AddTicketPage() {
                             {availablePerks.map((perk) => {
                                 const isChecked = selectedPerks.includes(perk.id);
                                 return (
-                                    <label 
-                                        key={perk.id} 
+                                    <label
+                                        key={perk.id}
                                         className="flex items-center gap-2.5 cursor-pointer select-none group"
                                     >
                                         <div className="relative">
@@ -312,11 +313,10 @@ export default function AddTicketPage() {
                                                 onChange={() => handlePerkToggle(perk.id)}
                                                 className="sr-only"
                                             />
-                                            <div className={`w-5 h-5 rounded-md border-2 transition-all flex items-center justify-center ${
-                                                isChecked 
-                                                    ? 'bg-[#F05A28] border-[#F05A28]' 
+                                            <div className={`w-5 h-5 rounded-md border-2 transition-all flex items-center justify-center ${isChecked
+                                                    ? 'bg-[#F05A28] border-[#F05A28]'
                                                     : 'border-zinc-300 dark:border-zinc-700 group-hover:border-zinc-400 dark:group-hover:border-zinc-500'
-                                            }`}>
+                                                }`}>
                                                 {isChecked && (
                                                     <svg className="w-3 h-3 text-white fill-current" viewBox="0 0 20 20">
                                                         <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
@@ -393,14 +393,21 @@ export default function AddTicketPage() {
 
                     {/* Dispatch Form Button */}
                     <div className="flex justify-end pt-4 w-full">
-                        <Button
-                            type="submit"
-                            isLoading={loading}
-                            className="w-full sm:w-auto h-12 px-10 bg-[#F05A28] hover:bg-[#d94a1d] text-white font-bold rounded-xl text-sm shadow-lg shadow-[#F05A28]/20 transition-all duration-200 active:scale-[0.99]"
-                        >
-                            {loading ? <BiArrowToTop className="mr-1" size={16} /> : <FiPlusCircle className="mr-1" size={16} />}
-                            {loading ? "Publishing..." : "Publish Ticket"}
-                        </Button>
+                        {user?.banned ? (
+                            <div className="w-full sm:w-auto h-12 px-6 bg-red-500/10 border border-red-500/20 text-red-500 font-bold rounded-xl text-xs flex items-center justify-center gap-2 uppercase tracking-wider shadow-inner select-none animate-fade-in">
+                                <FiAlertTriangle size={16} className="shrink-0 animate-pulse" />
+                                <span>Submission Blocked: Account Banned</span>
+                            </div>
+                        ) : (
+                            <Button
+                                type="submit"
+                                isLoading={loading}
+                                className={`w-full sm:w-auto h-12 px-10 bg-[#F05A28] hover:bg-[#d94a1d] text-white font-bold rounded-xl text-sm shadow-lg shadow-[#F05A28]/20 transition-all duration-200 active:scale-[0.99]`}
+                            >
+                                {loading ? <BiArrowToTop className="mr-1" size={16} /> : <FiPlusCircle className="mr-1" size={16} />}
+                                {loading ? "Publishing..." : "Publish Ticket"}
+                            </Button>
+                        )}
                     </div>
 
                 </form>

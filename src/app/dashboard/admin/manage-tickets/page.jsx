@@ -3,10 +3,10 @@ import { getTickets } from '@/lib/api/tickets';
 import React from 'react';
 
 const ManageTicketsPage = async() => {
-  const tickets = await getTickets('/api/tickets')
+  const tickets = await getTickets({role:"admin"})
   return (
     <div>
-      <ManageTicketsClient tickets={tickets}/>
+      <ManageTicketsClient tickets={tickets.data}/>
     </div>
   );
 };
