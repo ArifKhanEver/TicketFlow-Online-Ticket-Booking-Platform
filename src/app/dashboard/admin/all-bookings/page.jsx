@@ -43,7 +43,7 @@ export default function AllBookingsPage() {
       route: "Dhaka → Chattogram",
       bookingQuantity: 3,
       totalPrice: 2550,
-      status: "pending", // কাস্টমার রিকোয়েস্ট পাঠিয়েছে, ভেন্ডরের সিদ্ধান্তের অপেক্ষায়
+      status: "pending",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100"
     },
     {
@@ -54,7 +54,7 @@ export default function AllBookingsPage() {
       route: "Dhaka → Sylhet",
       bookingQuantity: 1,
       totalPrice: 4500,
-      status: "rejected", // ভেন্ডর বাতিল করে দিয়েছে
+      status: "rejected",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100"
     }
   ]);
@@ -66,7 +66,6 @@ export default function AllBookingsPage() {
     rejected: { text: "Cancelled Log", bg: "bg-red-500/10 text-red-500 border-red-500/20", icon: FiXCircle }
   };
 
-  // ২. লাইভ ফিল্টারিং ম্যাকানিজম (ইউজারনেম, ইমেইল, অপারেটর বা রুট দিয়ে ইনস্ট্যান্ট ফিল্টার)
   const filteredBookings = useMemo(() => {
     const query = searchQuery.toLowerCase();
     return globalBookings.filter(booking => 

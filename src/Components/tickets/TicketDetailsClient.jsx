@@ -73,6 +73,11 @@ export default function TicketDetailsClient({ ticket }) {
             return;
         }
 
+        if (user.role !== "user") {
+            toast.error("Only general users can book a ticket.");
+            return;
+        }
+
         if (bookingQty <= 0) {
             toast.error("Booking quantity must be at least 1.");
             return;
@@ -95,7 +100,10 @@ export default function TicketDetailsClient({ ticket }) {
             bookingQuantity: bookingQty,
             totalPrice: ticket.price * bookingQty,
             status: "pending",
+            journeyDuration: ticket.journeyDuration,
             userId: user.id,
+            userName:user.name,
+            userEmail:user.email,
             vendorId: ticket.vendorId,
         };
 
