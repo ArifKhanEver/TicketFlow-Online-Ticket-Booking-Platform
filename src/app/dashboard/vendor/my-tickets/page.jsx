@@ -2,7 +2,7 @@ import React from 'react';
 import { getUser } from '@/lib/core/session';
 import MyAddedTicketsClient from '@/Components/tickets/MyAddedTicketsClient';
 import { getTickets } from '@/lib/api/tickets';
-
+export const dynamic = 'force-dynamic';
 
 export default async function MyAddedTicketsPage() {
     const user = await getUser()

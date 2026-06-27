@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Chip } from '@heroui/react';
-import { 
-  FiClock, FiMapPin, FiCalendar, FiDollarSign, 
-  FiCheckCircle, FiXCircle, FiCreditCard, FiAlertCircle, FiTag, FiLayers, 
+import {
+  FiClock, FiMapPin, FiCalendar, FiDollarSign,
+  FiCheckCircle, FiXCircle, FiCreditCard, FiAlertCircle, FiTag, FiLayers,
   FiInfo
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 const CountdownTimer = ({ departureTime, status }) => {
   const [timeLeft, setTimeLeft] = useState("");
@@ -46,11 +47,10 @@ const CountdownTimer = ({ departureTime, status }) => {
   if (status === "rejected" || !timeLeft) return null;
 
   return (
-    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-sm border ${
-      isPassed || status === "paid"
-        ? "bg-zinc-50 text-zinc-500 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-500 dark:border-zinc-800" 
-        : "bg-orange-50 text-[#F05A28] border-orange-200 dark:bg-orange-950/10 dark:text-orange-400 dark:border-orange-900/20 animate-pulse"
-    }`}>
+    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-sm border ${isPassed || status === "paid"
+      ? "bg-zinc-50 text-zinc-500 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-500 dark:border-zinc-800"
+      : "bg-orange-50 text-[#F05A28] border-orange-200 dark:bg-orange-950/10 dark:text-orange-400 dark:border-orange-900/20 animate-pulse"
+      }`}>
       <FiClock size={13} />
       <span>{timeLeft}</span>
     </div>
@@ -67,18 +67,30 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
     paid: { label: "Paid & Secured", bg: "bg-green-500/10 text-green-500 border-green-500/20", icon: FiCheckCircle }
   };
 
-  const handleMockPayment = (bookingId, totalPrice) => {
+
+  const handlePayment = async () => {
     toast.loading("Invoking Stripe Checkout Gateway...", { id: "stripe" });
-    
-    setTimeout(() => {
-      setBookings(prev => prev.map(booking => {
-        if (booking._id === bookingId) {
-          return { ...booking, status: 'paid' };
-        }
-        return booking;
-      }));
-      toast.success(`Payment of BDT ${totalPrice} Processed! Ticket secured.`, { id: "stripe" });
-    }, 1500);
+
+    try {
+      const res = await fetch('/api/subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const data = await res.json();
+      console.log("Stripe Session Data Response:", data); // 🎯 কনসোলে চেক করার জন্য
+
+      if (data?.url) {
+        // ডিরেক্ট উইন্ডো লোকেশন চেঞ্জ
+        window.location.href = data.url;
+      } else {
+        toast.error(data?.error || "Failed to parse checkout registry.", { id: "stripe" });
+      }
+
+    } catch (error) {
+      console.error("Redirection pipeline broken:", error);
+      toast.error("Stripe gateway handshaking failure.", { id: "stripe" });
+    }
   };
 
   return (
@@ -106,7 +118,7 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
               const badge = statusBadges[booking.status] || statusBadges.pending;
               const BadgeIcon = badge.icon;
               const totalPrice = booking.unitPrice * booking.bookingQuantity;
-              
+
               const isDeparturePassed = +new Date(booking.departureDateTime) < +new Date();
               const isPaymentDisabled = isDeparturePassed || booking.status !== 'accepted';
 
@@ -123,7 +135,7 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
                   transition={{ duration: 0.25, delay: idx * 0.04 }}
                 >
                   <Card className="bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-xl hover:border-[#039855]/40 transition-all duration-300 flex flex-col md:flex-row items-stretch rounded-[28px] overflow-hidden w-full">
-                    
+
                     {/* Left Side Cover Photo Image */}
                     <div className="w-full md:w-64 h-48 md:h-auto relative shrink-0 bg-zinc-100 dark:bg-zinc-900">
                       <Image
@@ -139,7 +151,7 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
 
                     {/* Right Side Complex Horizontal Content Space */}
                     <div className="flex-1 p-6 flex flex-col justify-between gap-6">
-                      
+
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 w-full">
                         <div className="space-y-1">
                           <h3 className="text-lg md:text-xl font-black text-zinc-900 dark:text-white tracking-tight">
@@ -203,18 +215,26 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
                         <div className="sm:text-right shrink-0">
                           {booking.status === 'accepted' && (
                             <div className="flex flex-col items-end gap-1">
-                              <Button
-                                isDisabled={isPaymentDisabled}
-                                onClick={() => handleMockPayment(booking._id, totalPrice)}
-                                className={`h-11 px-6 text-xs font-black uppercase tracking-wider text-white transition-all rounded-xl shadow-md ${
-                                  isPaymentDisabled
-                                    ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed shadow-none"
-                                    : "bg-black hover:bg-[#039855] dark:bg-zinc-100 dark:text-black dark:hover:bg-[#039855] dark:hover:text-white"
-                                }`}
-                              >
-                                <FiCreditCard size={13} className="mr-1.5" />
-                                {isDeparturePassed ? "Locked / Passed" : "Pay via Stripe"}
-                              </Button>
+                              <form action="/api/checkout_sessions" method="POST">
+
+                                {/* Simplified to self-closing tags */}
+                                <input name="bookingId" value={booking._id} type="hidden" />
+                                <input name="totalPrice" value={totalPrice} type="hidden" />
+
+                                <Button
+                                  // Re-enabled: Ensure the button is functionally blocked when disabled
+                                  disabled={isPaymentDisabled || isDeparturePassed}
+                                  type="submit"
+                                  className={`h-11 px-6 text-xs font-black uppercase tracking-wider text-white transition-all rounded-xl shadow-md ${isPaymentDisabled || isDeparturePassed
+                                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed shadow-none pointer-events-none"
+                                      : "bg-black hover:bg-[#039855] dark:bg-zinc-100 dark:text-black dark:hover:bg-[#039855] dark:hover:text-white"
+                                    }`}
+                                >
+                                  <FiCreditCard size={13} className="mr-1.5" />
+                                  {isDeparturePassed ? "Locked / Passed" : "Pay via Stripe"}
+                                </Button>
+                              </form>
+
                               {isDeparturePassed && (
                                 <span className="text-[9px] font-bold text-red-500 flex items-center gap-0.5 mt-1">
                                   <FiAlertCircle size={10} /> Schedule elapsed. Payment barred.

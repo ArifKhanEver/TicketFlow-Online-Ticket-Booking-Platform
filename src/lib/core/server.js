@@ -67,7 +67,7 @@ export const serverFetch = async (path) => {
     }
 
     try {
-        const res = await fetch(`${baseUrl}${path}`);
+        const res = await fetch(`${baseUrl}${path}`, {cache:'no-store'});
         
         if (!res.ok) {
             console.error(`🚨 Fetch failed [Status ${res.status}] for path: ${path}`);
