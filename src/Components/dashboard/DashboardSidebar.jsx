@@ -9,17 +9,18 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   FiHome, FiUser, FiCreditCard, FiPlusCircle, FiList,
   FiInbox, FiPieChart, FiShield, FiUsers, FiCheckSquare,
-  FiLayers, FiCompass, FiInfo, FiLogOut, FiMenu
+  FiLayers, FiCompass, FiInfo, FiLogOut, FiMenu,
+  FiStar
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 
 export function DashboardSidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   // Hydration safety wrapper
   const [mounted, setMounted] = useState(false);
-  
+
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
@@ -44,6 +45,7 @@ export function DashboardSidebar() {
       { icon: FiShield, label: "Admin Profile", href: "/dashboard/admin" },
       { icon: FiUsers, label: "Manage Users", href: "/dashboard/admin/manage-users" },
       { icon: FiCheckSquare, label: "Manage Tickets", href: "/dashboard/admin/manage-tickets" },
+      { icon: FiStar, label: "Advertised Tickets", href: "/dashboard/admin/advertised-tickets" },
       { icon: FiLayers, label: "All Bookings", href: "/dashboard/admin/all-bookings" },
     ]
   };
@@ -89,7 +91,7 @@ export function DashboardSidebar() {
               <Image
                 src={mounted && user?.image ? user.image : "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"}
                 fill
-                sizes="44px" 
+                sizes="44px"
                 alt="Avatar"
                 className="object-cover"
               />
@@ -122,7 +124,7 @@ export function DashboardSidebar() {
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 ${isActive
                   ? "bg-[#039855] text-white font-bold shadow-md shadow-[#039855]/20"
                   : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-black dark:hover:text-white font-medium"
-                }`}
+                  }`}
               >
                 <item.icon className="size-4" />
                 {item.label}

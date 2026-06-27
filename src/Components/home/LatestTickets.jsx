@@ -1,11 +1,11 @@
-'use client';
-
 import React from 'react';
 import { FiZap } from "react-icons/fi";
 import TicketsCard from '../shared/TicketsCard';
+import { getTickets } from '@/lib/api/tickets';
 
-const LatestTickets = () => {
-    const latestTickets = [1, 2, 3, 4, 5, 6, 7, 8];
+const LatestTickets = async() => {
+    const ticketsResponse = await getTickets({limit:8})
+    const latestTickets = ticketsResponse.data
 
     return (
         <section className="py-24 bg-zinc-100 dark:bg-[#050505] transition-colors duration-300">

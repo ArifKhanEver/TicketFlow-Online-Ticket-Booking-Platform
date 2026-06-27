@@ -11,11 +11,14 @@ export const authHeader = async()=> {
     return header
 }
 
+
 export const serverMutation = async (path, data, method = "POST") => {
     if (!baseUrl) {
         console.error("🚨 Error: NEXT_PUBLIC_BASE_URL is undefined in your environment variables!");
-        return { error: "Base URL is not configured." };
+        return { error: "Base URL is not configured.", success: false };
     }
+
+    let redirectTo = null;
 
     try {
         const res = await fetch(`${baseUrl}${path}`, {
@@ -25,29 +28,36 @@ export const serverMutation = async (path, data, method = "POST") => {
                 // ... await authHeader()
             },
             body: JSON.stringify(data)
-        })
-        if (!res.ok) {
-            const errorHtml = await res.text();
-            console.error(`🚨 Server Error [Status ${res.status}]:`, errorHtml.slice(0, 500)); 
-            return { error: `Server returned status ${res.status}` };
+        });
+
+        if (res.status === 401) {
+            redirectTo = '/signin';
+        } else if (res.status === 403) {
+            redirectTo = '/unauthorized';
+        } 
+        else if (!res.ok) {
+            try {
+                const errorData = await res.json();
+                return { 
+                    error: errorData?.error || `Server returned status ${res.status}`, 
+                    success: false 
+                };
+            } catch {
+                return { error: `Server returned status ${res.status}`, success: false };
+            }
+        } else {
+            return await res.json();
         }
 
-        console.log("status code", res.status)
-        if(res.status == 401){
-            redirect('/signin')
-        }
-        if(res.status == 403){
-            redirect('/unauthorized')
-        }
-    
-        return await res.json();
-
-    }catch (error) {
+    } catch (error) {
         console.error("🚨 Fetch operation failed:", error);
-        return { error: "Network connection failure." };
+        return { error: "Network connection failure.", success: false };
     }
 
-}
+    if (redirectTo) {
+        redirect(redirectTo);
+    }
+};
 
 
 export const serverFetch = async (path) => {
