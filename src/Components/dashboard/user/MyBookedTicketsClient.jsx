@@ -11,6 +11,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { TbBrandBitbucketFilled } from 'react-icons/tb';
 
 const CountdownTimer = ({ departureTime, status }) => {
   const [timeLeft, setTimeLeft] = useState("");
@@ -153,9 +155,11 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
 
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 w-full">
                         <div className="space-y-1">
-                          <h3 className="text-lg md:text-xl font-black text-zinc-900 dark:text-white tracking-tight">
-                            {booking.ticketTitle}
-                          </h3>
+                          <Link href={`/tickets/${booking.ticketId}`} className='cursor-pointer'>
+                            <h3 className="text-lg md:text-xl font-black text-zinc-900 dark:text-white tracking-tight">
+                              {booking.ticketTitle}
+                            </h3>
+                          </Link>
                           <div className="flex items-center gap-2">
                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-extrabold border rounded-md uppercase tracking-wider ${badge.bg}`}>
                               <BadgeIcon size={10} />
@@ -220,13 +224,14 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
                                 <input name="totalPrice" value={booking.unitPrice} type="hidden" />
                                 <input name="title" value={booking.ticketTitle || "Travel Ticket"} type="hidden" />
                                 <input name="ticketId" value={booking.ticketId || ""} type="hidden" />
+                                <input name="bookingQuantity" value={booking.bookingQuantity || 1} type="hidden" />
 
                                 <Button
                                   disabled={isPaymentDisabled || isDeparturePassed}
                                   type="submit"
                                   className={`h-11 px-6 text-xs font-black uppercase tracking-wider text-white transition-all rounded-xl shadow-md ${isPaymentDisabled || isDeparturePassed
-                                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed shadow-none pointer-events-none"
-                                      : "bg-black hover:bg-[#039855] dark:bg-zinc-100 dark:text-black dark:hover:bg-[#039855] dark:hover:text-white"
+                                    ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed shadow-none pointer-events-none"
+                                    : "bg-black hover:bg-[#039855] dark:bg-zinc-100 dark:text-black dark:hover:bg-[#039855] dark:hover:text-white"
                                     }`}
                                 >
                                   <FiCreditCard size={13} className="mr-1.5" />

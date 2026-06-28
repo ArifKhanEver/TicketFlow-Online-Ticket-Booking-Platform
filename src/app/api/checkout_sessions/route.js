@@ -13,6 +13,7 @@ export async function POST(request) {
     const price = formData.get("totalPrice")
     const ticketTitle = formData.get('title')
     const ticketId =formData.get("ticketId")
+    const bookingQuantity = formData.get("bookingQuantity")
     const user = await getUser()
 
     if (!user || !user.email) {
@@ -40,6 +41,7 @@ export async function POST(request) {
         userEmail: user.email || '',
         bookingId: bookingId || '',
         ticketId,
+        bookingQuantity,
         ticketTitle: ticketTitle || "Travel Ticket"
       },
       mode: 'payment',

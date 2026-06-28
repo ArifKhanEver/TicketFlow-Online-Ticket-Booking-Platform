@@ -24,6 +24,7 @@ export default async function Success({ searchParams }) {
   const ticketTitle = metadata?.ticketTitle || "Fleet Travel Token";
   const bookingId = metadata?.bookingId || "N/A";
   const ticketId = metadata?.ticketId || "";
+  const bookingQuantity = metadata?.bookingQuantity || 1;
   const userId = metadata?.userId || "";
 
   const transactionId = typeof session.payment_intent === 'object'
@@ -43,6 +44,7 @@ export default async function Success({ searchParams }) {
         ticketId,
         ticketTitle,
         amount: pricePaid,
+        bookingQuantity: Number(bookingQuantity),
         customerEmail,
         status: "paid"
       }
