@@ -78,10 +78,9 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
       });
 
       const data = await res.json();
-      console.log("Stripe Session Data Response:", data); // 🎯 কনসোলে চেক করার জন্য
+      console.log("Stripe Session Data Response:", data);
 
       if (data?.url) {
-        // ডিরেক্ট উইন্ডো লোকেশন চেঞ্জ
         window.location.href = data.url;
       } else {
         toast.error(data?.error || "Failed to parse checkout registry.", { id: "stripe" });
@@ -217,12 +216,12 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
                             <div className="flex flex-col items-end gap-1">
                               <form action="/api/checkout_sessions" method="POST">
 
-                                {/* Simplified to self-closing tags */}
                                 <input name="bookingId" value={booking._id} type="hidden" />
-                                <input name="totalPrice" value={totalPrice} type="hidden" />
+                                <input name="totalPrice" value={booking.unitPrice} type="hidden" />
+                                <input name="title" value={booking.ticketTitle || "Travel Ticket"} type="hidden" />
+                                <input name="ticketId" value={booking.ticketId || ""} type="hidden" />
 
                                 <Button
-                                  // Re-enabled: Ensure the button is functionally blocked when disabled
                                   disabled={isPaymentDisabled || isDeparturePassed}
                                   type="submit"
                                   className={`h-11 px-6 text-xs font-black uppercase tracking-wider text-white transition-all rounded-xl shadow-md ${isPaymentDisabled || isDeparturePassed

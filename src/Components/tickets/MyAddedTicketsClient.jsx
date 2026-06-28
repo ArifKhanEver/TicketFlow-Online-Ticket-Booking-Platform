@@ -25,7 +25,7 @@ export default function MyAddedTicketsClient({ initialTickets }) {
         if (!confirm("Are you sure you want to delete this ticket permanently?")) return;
 
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+            const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://ticket-flow-server.vercel.app";
             const res = await fetch(`${apiUrl}/api/tickets/${id}`, { method: "DELETE" });
             const data = await res.json();
 
