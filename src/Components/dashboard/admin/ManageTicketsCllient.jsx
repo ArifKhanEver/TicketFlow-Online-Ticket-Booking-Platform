@@ -21,7 +21,6 @@ export default function ManageTicketsClient({ tickets = [] }) {
     rejected: { text: "Rejected", bg: "bg-red-500/10 text-red-500 border-red-500/20", icon: FiXCircle }
   };
 
-  // মডারেশন হ্যান্ডলার (Approve / Reject)
   const handleStatusUpdate = async (ticketId, actionStatus) => {
     toast.loading(`Updating fleet listing parameters...`, { id: "ticket_sync" });
 
@@ -45,7 +44,6 @@ export default function ManageTicketsClient({ tickets = [] }) {
     }
   };
 
-  // সার্চ ফিল্টার
   const filteredTickets = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     return (tickets || []).filter(ticket =>

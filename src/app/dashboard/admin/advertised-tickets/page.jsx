@@ -6,12 +6,11 @@ export const dynamic = "force-dynamic";
 
 const AdvertisedTicketsPage = async () => {
   const response = await getTickets({ role: 'admin' });
-
   const ticketsData = response?.tickets || [];
 
   return (
     <div className="p-6">
-      <AdvertisedTicketsClient initialTickets={ticketsData} />
+      <AdvertisedTicketsClient tickets={ticketsData} />
     </div>
   );
 };
