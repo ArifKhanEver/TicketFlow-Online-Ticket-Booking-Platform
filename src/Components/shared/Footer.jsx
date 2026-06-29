@@ -3,8 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
+import { FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi";
 import logo from '@/assets/images/logo.png';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
     return (
@@ -21,7 +22,7 @@ const Footer = () => {
                             Your ultimate ticket booking platform. Experience safe, secure, and instant travel arrangements across the country.
                         </p>
                         <div className="flex gap-4">
-                            {[FiFacebook, FiTwitter, FiInstagram, FiLinkedin].map((Icon, i) => (
+                            {[FiFacebook, FaXTwitter, FiInstagram, FiLinkedin].map((Icon, i) => (
                                 <a key={i} href="#" className="w-10 h-10 rounded-full bg-white dark:bg-[#141416] border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-[#039855] hover:border-[#039855] transition-colors">
                                     <Icon size={18} />
                                 </a>
