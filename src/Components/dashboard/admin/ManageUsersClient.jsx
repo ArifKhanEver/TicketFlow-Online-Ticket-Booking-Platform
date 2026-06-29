@@ -39,7 +39,7 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
     state.close(); 
 
     try {
-      const currentUser = users.find(user => user._id === userId);
+      const currentUser = users?.find(user => user._id === userId);
       const currentRole = currentUser ? currentUser.role : 'vendor';
       const currentBannedStatus = currentUser ? currentUser.banned : false;
 
@@ -103,7 +103,7 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
           </p>
         </div>
         <Chip variant="flat" color="success" className="font-bold text-xs uppercase px-2.5 h-7 rounded-lg">
-          Total Registry: {users.length}
+          Total Registry: {users?.length}
         </Chip>
       </div>
 
@@ -120,13 +120,13 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
       </div>
 
       {/* MAIN CONTAINER PLATFORM */}
-      {filteredUsers.length > 0 ? (
+      {filteredUsers?.length > 0 ? (
         <div className="w-full">
 
           {/* A) MOBILE VIEW */}
           <div className="grid grid-cols-1 gap-4 md:hidden">
             <AnimatePresence mode="popLayout">
-              {filteredUsers.map((userInstance) => {
+              {filteredUsers?.map((userInstance) => {
                 const isVendor = userInstance.role === 'vendor';
                 const isAdmin = userInstance.role === 'admin';
                 const isSelf = userInstance._id === currentAdminId; 
