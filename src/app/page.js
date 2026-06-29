@@ -7,6 +7,7 @@ import StatsCounter from "@/Components/home/StatsCounter";
 import VendorCTA from "@/Components/home/VendorCTA";
 import WhyChooseUs from "@/Components/home/WhyChooseUs";
 
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
