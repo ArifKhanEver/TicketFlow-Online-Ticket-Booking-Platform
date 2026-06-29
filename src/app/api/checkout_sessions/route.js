@@ -10,10 +10,10 @@ export async function POST(request) {
     
     const formData = await request.formData()
     const bookingId = formData.get("bookingId")
-    const price = formData.get("totalPrice")
+    const bookingQuantity = formData.get("bookingQuantity")
+    const price = Number(formData.get("totalPrice")) * bookingQuantity
     const ticketTitle = formData.get('title')
     const ticketId =formData.get("ticketId")
-    const bookingQuantity = formData.get("bookingQuantity")
     const user = await getUser()
 
     if (!user || !user.email) {
@@ -37,7 +37,7 @@ export async function POST(request) {
       ],
       metadata: {
         userId: user.id || '',
-        price: Number(price),
+        price,
         userEmail: user.email || '',
         bookingId: bookingId || '',
         ticketId,

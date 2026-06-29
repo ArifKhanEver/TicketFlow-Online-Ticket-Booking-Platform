@@ -10,11 +10,17 @@ export const getUser = async()=>{
     return session?.user || null;
 }
 
-export const getUserToken = async()=>{
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
-    return session?.session?.token || null;
+export const getUserToken = async () => {
+    try {
+        const response = await auth.api.getToken({
+            headers: await headers()
+        });
+        const token = response?.token || null;
+        return token;
+    } catch (error) {
+        console.error("Failed to extract JWT token:", error.message);
+        return null;
+    }
 }
 
 export const requiredRole = async(role)=>{

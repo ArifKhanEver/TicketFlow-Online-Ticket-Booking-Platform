@@ -1,6 +1,6 @@
 "use server"
-import { serverFetch } from "../core/server"
+import { protectedFetch, serverFetch } from "../core/server"
 
 export const getAllUsers = async(path)=>{
-    return serverFetch(path)
+    return protectedFetch(path)
 }

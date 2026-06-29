@@ -2,18 +2,19 @@
 
 import React from 'react';
 import { Card, Button, Chip } from "@heroui/react";
-import { 
-    FiLayers, FiMapPin, FiCalendar, FiDollarSign, 
-    FiEdit2, FiTrash2, FiClock, FiCheckCircle, FiXCircle, FiInfo 
+import {
+    FiLayers, FiMapPin, FiCalendar, FiDollarSign,
+    FiEdit2, FiTrash2, FiClock, FiCheckCircle, FiXCircle, FiInfo
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 import UpdateTicketModal from './UpdateTicketModal';
+import { deleteTicket } from '@/lib/actions/ticket';
 
 export default function MyAddedTicketsClient({ initialTickets }) {
-    const router = useRouter(); 
+    const router = useRouter();
 
     const statusConfig = {
         approved: { text: "Approved", icon: FiCheckCircle, bg: "bg-green-500/10 text-green-500 border-green-500/20" },
@@ -25,13 +26,21 @@ export default function MyAddedTicketsClient({ initialTickets }) {
         if (!confirm("Are you sure you want to delete this ticket permanently?")) return;
 
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://ticket-flow-server.vercel.app";
-            const res = await fetch(`${apiUrl}/api/tickets/${id}`, { method: "DELETE" });
-            const data = await res.json();
+            // const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://ticket-flow-server.vercel.app";
+            // const res = await fetch(`${apiUrl}/api/tickets/${id}`, {
+            //     method: "DELETE",
+            //     headers: {
+            //         'content-type': 'application/json',
+            //         ... await authHeader()
+            //     },
+            // });
+            // const data = await res.json();
+
+            const data = await deleteTicket(id)
 
             if (data.deletedCount > 0) {
                 toast.success("Ticket deleted successfully.");
-                router.refresh(); 
+                router.refresh();
             } else {
                 toast.error("Failed to delete the ticket.");
             }
@@ -49,7 +58,7 @@ export default function MyAddedTicketsClient({ initialTickets }) {
                     <p className="text-xs font-semibold text-zinc-400 mt-1">Manage, update, and monitor the verification pipeline of your listed fleet tokens.</p>
                 </div>
                 <Chip variant="flat" color="primary" className="font-bold text-xs uppercase px-2">
-                    Total Fleet: {initialTickets.length} 
+                    Total Fleet: {initialTickets.length}
                 </Chip>
             </div>
 
@@ -71,7 +80,7 @@ export default function MyAddedTicketsClient({ initialTickets }) {
                                     className="w-full"
                                 >
                                     <Card className="bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800/80 shadow-sm hover:shadow-xl hover:border-[#039855]/30 transition-all duration-300 flex flex-col md:flex-row items-stretch rounded-[24px] overflow-hidden w-full group">
-                                        
+
                                         <div className="relative h-44 md:h-auto w-full md:w-56 shrink-0 bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
                                             <Image src={ticket.image} alt={ticket.title} fill className="object-cover group-hover:scale-102 transition-transform duration-500" />
                                             <span className="absolute top-3 left-3 text-[9px] font-black tracking-widest uppercase px-2.5 py-1 bg-black/60 backdrop-blur-md text-white rounded-lg shadow-sm">

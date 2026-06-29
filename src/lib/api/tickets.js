@@ -1,5 +1,5 @@
 "use server"
-import { serverFetch } from "../core/server"
+import { protectedFetch, serverFetch } from "../core/server"
 
 export const getTickets = async (query = {}) => {
     const searchParams = new URLSearchParams(query);
@@ -11,7 +11,7 @@ export const getTickets = async (query = {}) => {
 }
 
 export const getSingleTicket = async (path, id) => {
-    return serverFetch(`${path}/${id}`)
+    return protectedFetch(`${path}/${id}`)
 }
 
 export const getVendorTickets = async (path, vendorId) => {

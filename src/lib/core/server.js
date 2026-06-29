@@ -5,9 +5,10 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export const authHeader = async()=> {
     const token = await getUserToken()
-    const header = token? {
-        authorization: `Bearer ${token}`
-    }:{};
+    const header = token ? {
+        "Authorization": `Bearer ${token}`
+    } : {};
+    
     return header
 }
 
@@ -25,7 +26,7 @@ export const serverMutation = async (path, data, method = "POST") => {
             method: method,
             headers: {
                 'content-type': 'application/json',
-                // ... await authHeader()
+                ... await authHeader()
             },
             body: JSON.stringify(data)
         });
@@ -93,6 +94,7 @@ export const protectedFetch = async (path) => {
                 headers: await authHeader()
             }
         );
+
         
         if (!res.ok) {
             console.error(`🚨 Fetch failed [Status ${res.status}] for path: ${path}`);
@@ -105,3 +107,16 @@ export const protectedFetch = async (path) => {
         return null;
     }
 };
+
+
+
+export const serverDelete = async (id) => {
+    const res = await fetch(`${baseUrl}/api/tickets/${id}`, {
+        method: "DELETE",
+        headers: {
+            'content-type': 'application/json',
+            ... await authHeader()
+        },
+    });
+    return await res.json();
+}

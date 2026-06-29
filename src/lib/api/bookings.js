@@ -1,14 +1,14 @@
 "use server"
-import { serverFetch } from "../core/server"
+import { protectedFetch, serverFetch } from "../core/server"
 
 export const getMyBookedTickets = async(path, userId)=>{
-    return serverFetch(`${path}?userId=${userId}`)
+    return protectedFetch(`${path}?userId=${userId}`)
 }
 
 export const getRequestedBookings = async(path, vendorId)=>{
-    return serverFetch(`${path}?vendorId=${vendorId}`)
+    return protectedFetch(`${path}?vendorId=${vendorId}`)
 }
 
 export const getAllBookings = async(role)=>{
-    return serverFetch(`/api/bookings/admin/all-bookings?role=${role}`)
+    return protectedFetch(`/api/bookings/admin/all-bookings?role=${role}`)
 }
