@@ -5,7 +5,7 @@ import { getTickets } from '@/lib/api/tickets';
 
 const LatestTickets = async() => {
     const ticketsResponse = await getTickets({limit:8})
-    const latestTickets = ticketsResponse.data
+    const latestTickets = ticketsResponse.tickets
 
     return (
         <section className="py-24 bg-zinc-100 dark:bg-[#050505] transition-colors duration-300">

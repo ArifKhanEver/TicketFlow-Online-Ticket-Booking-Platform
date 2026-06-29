@@ -11,7 +11,7 @@ export default async function MyAddedTicketsPage() {
 
     return (
         <div className="w-full min-h-screen bg-zinc-50 dark:bg-[#0A0A0C] p-4 md:p-8 pt-24">
-            <MyAddedTicketsClient initialTickets={allTickets.data} />
+            <MyAddedTicketsClient initialTickets={allTickets.tickets} />
         </div>
     );
 }

@@ -107,7 +107,7 @@ useEffect(() => {
                 {/* Journey Timeline View (Departure -> Est Duration -> Arrival) */}
                 <div className="flex items-center justify-between relative max-w-xl w-full">
                     <div className="text-left">
-                        <p className="text-xl font-black text-black dark:text-white">{departure}</p>
+                        <p className="text-xl font-black !text-black dark:!text-white">{departure}</p>
                         <p className="text-xs font-bold text-gray-500 dark:text-zinc-400 mt-0.5 flex items-center gap-1">
                             <FiMapPin size={11} className="text-[#039855]" /> {ticket.from}
                         </p>
@@ -126,7 +126,7 @@ useEffect(() => {
                     </div>
 
                     <div className="text-right">
-                        <p className="text-xl font-black text-black dark:text-white">{arrival}</p>
+                        <p className="text-xl font-black !text-black dark:!text-white">{arrival}</p>
                         <p className="text-xs font-bold text-gray-500 dark:text-zinc-400 mt-0.5 flex items-center gap-1 justify-end">
                             <FiMapPin size={11} className="text-[#F05A28]" /> {ticket.to}
                         </p>

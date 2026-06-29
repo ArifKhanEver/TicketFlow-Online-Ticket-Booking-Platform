@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const AdvertisedTickets = async () => {
     const ticketsResponse = await getTickets({ featured: "true", limit: 6 });
-    const advertisedTickets = ticketsResponse?.success ? ticketsResponse.data : [];
+    const advertisedTickets = ticketsResponse?.success ? ticketsResponse.tickets : [];
 
     if (advertisedTickets.length === 0) return null;
 

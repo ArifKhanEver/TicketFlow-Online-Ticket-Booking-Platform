@@ -6,7 +6,7 @@ const ManageTicketsPage = async() => {
   const tickets = await getTickets({role:"admin"})
   return (
     <div>
-      <ManageTicketsClient tickets={tickets.data}/>
+      <ManageTicketsClient tickets={tickets.tickets}/>
     </div>
   );
 };
