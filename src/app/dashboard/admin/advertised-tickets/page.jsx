@@ -2,11 +2,16 @@ import AdvertisedTicketsClient from '@/Components/dashboard/admin/AdvertisedTick
 import { getTickets } from '@/lib/api/tickets';
 import React from 'react';
 
-const AdvertisedTicketsPage = async() => {
-  const tickets = await getTickets({role:"admin"})
+export const dynamic = "force-dynamic";
+
+const AdvertisedTicketsPage = async () => {
+  const response = await getTickets({ role: 'admin' });
+
+  const ticketsData = response?.tickets || [];
+
   return (
-    <div>
-      <AdvertisedTicketsClient tickets={tickets.tickets}/>
+    <div className="p-6">
+      <AdvertisedTicketsClient initialTickets={ticketsData} />
     </div>
   );
 };
