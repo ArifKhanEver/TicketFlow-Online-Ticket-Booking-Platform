@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-// ফিক্সড: v3 নিয়ম অনুযায়ী আলাদা মোডাল কম্পোনেন্ট বাদ দিয়ে শুধু 'Modal' ও 'useOverlayState' ইম্পোর্ট করা হয়েছে
 import { 
   Chip, Button, Avatar, 
   Modal, useOverlayState 
@@ -19,7 +18,6 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   
-  // ফিক্সড: useDisclosure() এর পরিবর্তে v3 এর অফিশিয়াল useOverlayState() হুক
   const state = useOverlayState();
   
   const [pendingAction, setPendingAction] = useState(null); 
@@ -27,7 +25,7 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
 
   const triggerConfirmation = (userId, userName, type, payloadValue) => {
     setPendingAction({ userId, userName, type, payloadValue });
-    state.open(); // মোডাল ওপেন ট্রিগার
+    state.open(); 
   };
 
   const handleExecuteConfirmedAction = async () => {
@@ -38,7 +36,7 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
     const toastId = type === 'role' ? "role_sync" : "fraud_sync";
     
     toast.loading(`Processing state sync pipeline...`, { id: toastId });
-    state.close(); // ফিক্সড: useOverlayState মেথড দিয়ে মোডাল ক্লোজ
+    state.close(); 
 
     try {
       const currentUser = users.find(user => user._id === userId);
@@ -81,7 +79,7 @@ export default function ManageUsersClient({ users = [], currentAdminId }) {
 
   const filteredUsers = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return users.filter(user =>
+    return users?.filter(user =>
       user.name?.toLowerCase().includes(query) ||
       user.email?.toLowerCase().includes(query)
     );

@@ -5,7 +5,6 @@ import React from 'react';
 
 const ManageUsersPage = async() => {
   const currentUser = await getUser();
-  console.log(currentUser)
   const users = await getAllUsers('/api/users')
   return (
     <div>
