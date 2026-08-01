@@ -1,23 +1,22 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Card, Chip, Button, Tooltip as HeroTooltip } from '@heroui/react';
+import { Card, Chip, Button } from '@heroui/react';
 import { 
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
 import { 
   FiTrendingUp, FiLayers, FiCheckCircle, FiDollarSign, 
   FiPieChart, FiActivity, FiClock, FiPercent, FiArrowUpRight,
-  FiRefreshCw, FiCalendar, FiCreditCard, FiCompass, FiShield
+  FiCreditCard, FiCompass, FiShield
 } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function RevenueOverviewClient({ metrics = {} }) {
   const [isMounted, setIsMounted] = useState(false);
   const [timeRange, setTimeRange] = useState('6M'); // '30D' | '6M' | 'YTD' | 'ALL'
-  const [activeDonutIndex, setActiveDonutIndex] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -429,8 +428,6 @@ export default function RevenueOverviewClient({ metrics = {} }) {
                       outerRadius={80}
                       paddingAngle={4}
                       dataKey="value"
-                      onMouseEnter={(_, idx) => setActiveDonutIndex(idx)}
-                      onMouseLeave={() => setActiveDonutIndex(null)}
                     >
                       {donutData.map((entry, index) => (
                         <Cell 
