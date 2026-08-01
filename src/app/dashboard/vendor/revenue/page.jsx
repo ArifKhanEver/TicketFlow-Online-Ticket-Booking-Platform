@@ -1,35 +1,32 @@
 import React from 'react';
 import { getUser } from '@/lib/core/session';
 import RevenueOverviewClient from '@/Components/dashboard/vendor/RevenueOverviewClient';
+import { getVendorRevenueOverview } from '@/lib/api/revenue';
 
-async function getRevenueMetrics(role, userId) {
-  if (!role || !userId) return null;
-  
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    
-    const res = await fetch(`${apiUrl}/api/revenue/overview?role=${role}&userId=${userId}`, { 
-      cache: 'no-store' 
-    });
-    
-    const data = await res.json();
-    return data.success ? data.metrics : null;
-  } catch (error) {
-    console.error("Failed to compile dynamic analytics on server:", error);
-    return null;
-  }
-}
+export const dynamic = 'force-dynamic';
 
 export default async function RevenueOverviewPage() {
   const user = await getUser();
   
-  const serverMetrics = await getRevenueMetrics(user?.role, user?.id);
+  const serverMetrics = await getVendorRevenueOverview(user?.id, user?.role);
 
   const defaultMetrics = {
     totalTicketsAdded: 0,
+    totalSeatsCapacity: 0,
     totalTicketsSold: 0,
     totalRevenueBDT: 0,
-    monthlyAnalytics: []
+    pendingRevenueBDT: 0,
+    occupancyRate: 0,
+    averageTicketPrice: 0,
+    transportTypeDistribution: [
+      { name: 'Bus', value: 0, actualRevenue: 0, ticketsAdded: 0, ticketsSold: 0, color: '#F05A28' },
+      { name: 'Train', value: 0, actualRevenue: 0, ticketsAdded: 0, ticketsSold: 0, color: '#039855' },
+      { name: 'Launch', value: 0, actualRevenue: 0, ticketsAdded: 0, ticketsSold: 0, color: '#8B5CF6' },
+      { name: 'Flight', value: 0, actualRevenue: 0, ticketsAdded: 0, ticketsSold: 0, color: '#3B82F6' },
+    ],
+    monthlyAnalytics: [],
+    statusBreakdown: [],
+    recentTransactions: []
   };
 
   return <RevenueOverviewClient metrics={serverMetrics || defaultMetrics} />;
