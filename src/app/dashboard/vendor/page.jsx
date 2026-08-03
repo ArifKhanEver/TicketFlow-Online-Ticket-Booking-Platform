@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Chip, Card, Tooltip, Spinner } from "@heroui/react";
+import { Chip, Card, Tooltip } from "@heroui/react";
+import TicketFlowLoader from '@/Components/shared/TicketFlowLoader';
 import { 
     FiEdit3, 
     FiMapPin, 
@@ -23,7 +24,17 @@ export default function VendorProfile() {
     const vendor = session?.user;
 
     if (isPending) {
-        return <div className='grid place-content-center min-h-[300px]'><Spinner color="warning" /></div>;
+        return (
+            <div className="max-w-5xl mx-auto p-4 md:p-0 min-h-[420px] flex items-center justify-center">
+                <TicketFlowLoader
+                    variant="card"
+                    themeColor="coral"
+                    title="Accessing Fleet Partner Portal"
+                    subtext="Verifying vendor authorization and transit inventory streams..."
+                    showProgressBar={true}
+                />
+            </div>
+        );
     }
 
     // Common styles for the static info blocks (adapted for vendor theme)
