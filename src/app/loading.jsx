@@ -7,9 +7,9 @@ export default function Loading() {
     return (
         <TicketFlowLoader
             variant="fullscreen"
-            themeColor="default"
-            showTelemetry={true}
+            themeColor="emerald"
             showProgressBar={true}
         />
     );
-}
+}
+
