@@ -40,7 +40,6 @@ export default function AllTicketsClient({ tickets = [], totalPages = 1, totalCo
         }
 
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
-        console.log("URL Updated with TransportType Matrix:", params.toString());
     }, [fromInput, toInput, selectedSort, selectedTransports, page, pathname, router]);
 
     const getPageNumbers = () => {

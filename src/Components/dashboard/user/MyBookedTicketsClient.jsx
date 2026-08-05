@@ -10,9 +10,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { TbBrandBitbucketFilled } from 'react-icons/tb';
 
 const CountdownTimer = ({ departureTime, status }) => {
   const [timeLeft, setTimeLeft] = useState("");
@@ -69,7 +67,6 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
     paid: { label: "Paid & Secured", bg: "bg-green-500/10 text-green-500 border-green-500/20", icon: FiCheckCircle }
   };
 
-
   const handlePayment = async () => {
     toast.loading("Invoking Stripe Checkout Gateway...", { id: "stripe" });
 
@@ -80,7 +77,6 @@ export default function MyBookedTicketsClient({ bookings: initialBookings = [] }
       });
 
       const data = await res.json();
-      console.log("Stripe Session Data Response:", data);
 
       if (data?.url) {
         window.location.href = data.url;

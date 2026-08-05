@@ -24,7 +24,6 @@ export default function Hero() {
     if (searchFields.transportType) params.set("transportType", searchFields.transportType);
 
     router.push(`/tickets?${params.toString()}`);
-    console.log("Redirecting to Tickets Engine via Proxy:", params.toString());
   };
 
   return (

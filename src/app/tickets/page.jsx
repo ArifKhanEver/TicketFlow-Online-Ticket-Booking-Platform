@@ -14,7 +14,6 @@ export default async function AllTicketsPage({ searchParams }) {
     };
 
     const response = await getTickets(query);
-    console.log(response)
     
     return (
         <main className="min-h-screen bg-gray-50 dark:bg-[#050505] text-black dark:text-white transition-colors duration-300 pt-24 pb-16">
