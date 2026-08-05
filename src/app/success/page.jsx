@@ -4,13 +4,12 @@ import { stripe } from '../../lib/stripe';
 import { FiCheckCircle, FiArrowRight, FiMail, FiHash } from 'react-icons/fi';
 import { BsFillTicketFill, BsShieldCheck } from 'react-icons/bs';
 import { makePayment } from '@/lib/actions/payment';
-import { getUser } from '@/lib/core/session';
 
 export default async function Success({ searchParams }) {
-  const { session_id } = await searchParams;
+  const { session_id } = (await searchParams) || {};
 
   if (!session_id) {
-    throw new Error('Please provide a valid session_id (`cs_test_...`)');
+    redirect('/dashboard/user/booked-tickets');
   }
 
   const session = await stripe.checkout.sessions.retrieve(session_id, {
@@ -142,4 +141,6 @@ export default async function Success({ searchParams }) {
       </section>
     );
   }
+
+  return redirect('/dashboard/user/booked-tickets');
 }

@@ -36,13 +36,13 @@ export async function POST(request) {
         },
       ],
       metadata: {
-        userId: user.id || '',
-        price,
-        userEmail: user.email || '',
-        bookingId: bookingId || '',
-        ticketId,
-        bookingQuantity,
-        ticketTitle: ticketTitle || "Travel Ticket"
+        userId: String(user.id || ''),
+        price: String(price || '0'),
+        userEmail: String(user.email || ''),
+        bookingId: String(bookingId || ''),
+        ticketId: String(ticketId || ''),
+        bookingQuantity: String(bookingQuantity || '1'),
+        ticketTitle: String(ticketTitle || "Travel Ticket")
       },
       mode: 'payment',
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
