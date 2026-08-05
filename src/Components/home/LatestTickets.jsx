@@ -3,9 +3,9 @@ import { FiZap } from "react-icons/fi";
 import TicketsCard from '../shared/TicketsCard';
 import { getTickets } from '@/lib/api/tickets';
 
-const LatestTickets = async() => {
-    const ticketsResponse = await getTickets({limit:8})
-    const latestTickets = ticketsResponse.tickets
+const LatestTickets = async () => {
+    const ticketsResponse = await getTickets({ limit: 8 });
+    const latestTickets = ticketsResponse?.tickets || [];
 
     return (
         <section className="py-24 bg-zinc-100 dark:bg-[#050505] transition-colors duration-300">
@@ -27,8 +27,8 @@ const LatestTickets = async() => {
 
                 {/* 4-Column Grid for compact layout */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {latestTickets.map((ticket) => (
-                        <TicketsCard key={ticket} ticket={ticket} />
+                    {latestTickets.map((ticket, index) => (
+                        <TicketsCard key={ticket._id || ticket.id || index} ticket={ticket} />
                     ))}
                 </div>
 

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from "@heroui/react";
 import { FiClock, FiMapPin, FiTag } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -11,33 +10,38 @@ export default function TicketCard({ ticket, idx }) {
     const [timeLeft, setTimeLeft] = useState("");
     const [isDeparted, setIsDeparted] = useState(false);
 
-useEffect(() => {
-    const calculateTimeLeft = () => {
-        const difference = +new Date(ticket.departureDateTime) - +new Date();
-        
-        if (difference <= 0) {
-            setTimeLeft("Departed");
-            setIsDeparted(true);
-            return;
-        }
+    useEffect(() => {
+        const calculateTimeLeft = () => {
+            if (!ticket?.departureDateTime || isNaN(new Date(ticket.departureDateTime).getTime())) {
+                setTimeLeft("Schedule Pending");
+                return;
+            }
 
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / 1000 / 60) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
+            const difference = +new Date(ticket.departureDateTime) - +new Date();
+            
+            if (difference <= 0) {
+                setTimeLeft("Departed");
+                setIsDeparted(true);
+                return;
+            }
 
-        const daysPart = days > 0 ? `${days}day ` : "";
-        
-        setTimeLeft(
-            `${daysPart}${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s left`
-        );
-    };
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((difference / 1000 / 60) % 60);
+            const seconds = Math.floor((difference / 1000) % 60);
 
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
+            const daysPart = days > 0 ? `${days}day ` : "";
+            
+            setTimeLeft(
+                `${daysPart}${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s left`
+            );
+        };
 
-    return () => clearInterval(timer);
-}, [ticket.departureDateTime]);
+        calculateTimeLeft();
+        const timer = setInterval(calculateTimeLeft, 1000);
+
+        return () => clearInterval(timer);
+    }, [ticket?.departureDateTime]);
 
     const getJourneyTimes = () => {
         if (!ticket.departureDateTime) return { departure: "--:--", arrival: "--:--" };
@@ -143,11 +147,13 @@ useEffect(() => {
                     </div>
 
                     <Link
-                        href={`/tickets/${ticket._id}`}
-                        disabled={isDeparted || ticket.quantity === 0}
+                        href={isDeparted || ticket.quantity === 0 ? '#' : `/tickets/${ticket._id}`}
+                        onClick={(e) => {
+                            if (isDeparted || ticket.quantity === 0) e.preventDefault();
+                        }}
                         className={`py-3 px-6 font-black rounded-xl transition-all shadow-md text-xs uppercase tracking-wider ${
                             isDeparted || ticket.quantity === 0
-                                ? "bg-gray-200 text-gray-400 dark:bg-zinc-800 dark:text-zinc-600 cursor-not-allowed"
+                                ? "bg-gray-200 text-gray-400 dark:bg-zinc-800 dark:text-zinc-600 cursor-not-allowed pointer-events-none"
                                 : "bg-black hover:bg-[#039855] dark:bg-zinc-100 dark:hover:bg-[#039855] text-white dark:text-black hover:text-white"
                         }`}
                     >

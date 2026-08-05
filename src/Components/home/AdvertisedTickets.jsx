@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from "@heroui/react";
 import { FiArrowRight, FiCheck, FiLayers, FiTrendingUp } from "react-icons/fi";
 import Link from 'next/link';
 import { getTickets } from '@/lib/api/tickets';
@@ -7,7 +6,7 @@ import Image from 'next/image';
 
 const AdvertisedTickets = async () => {
     const ticketsResponse = await getTickets({ featured: "true", limit: 6 });
-    const advertisedTickets = ticketsResponse.tickets || [];
+    const advertisedTickets = ticketsResponse?.tickets || [];
 
     if (advertisedTickets.length === 0) return null;
 
@@ -37,9 +36,12 @@ const AdvertisedTickets = async () => {
 
                             {/* Image Box Container */}
                             <div className="h-48 bg-zinc-100 dark:bg-[#1e1e22] rounded-[24px] relative overflow-hidden mb-6 flex items-center justify-center border border-zinc-200/40 dark:border-zinc-800/30">
-                                <span className="text-zinc-400 dark:text-zinc-600 font-medium text-sm select-none">        
-                                <Image src={item.image || ""} fill alt={item.title} />
-                                </span>
+                                <Image 
+                                    src={item.image || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"} 
+                                    fill 
+                                    alt={item.title}
+                                    className="object-cover" 
+                                />
 
                                 {/* Transport Type Floating Tag */}
                                 <span className="absolute top-4 left-4 bg-white/90 dark:bg-[#141416]/90 backdrop-blur-md text-zinc-900 dark:text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-sm border border-zinc-200/50 dark:border-zinc-800/50 uppercase tracking-wider">

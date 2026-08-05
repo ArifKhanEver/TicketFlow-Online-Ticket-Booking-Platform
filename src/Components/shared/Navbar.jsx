@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
-import { BsGear, BsPersonSquare } from 'react-icons/bs';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 
 const containerVariants = {
@@ -200,7 +199,7 @@ export default function Navbar() {
                 {/* USER INFO BEFORE THEME TOGGLE AND SIGN OUT (Mobile) */}
                 {session?.user && (
                   <motion.li variants={itemVariants} className="flex items-center gap-3">
-                    <Image width={10} height={10} src={session.user.image || "/default-avatar.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700" alt="Avatar" />
+                    <Image width={40} height={40} src={session.user.image || "https://i.ibb.co.com/Xk4nZxs8/pngtree-man-avatar-image-for-profile-png-image-13001877.png"} className="w-10 h-10 rounded-full border border-zinc-200 dark:border-zinc-700 object-cover" alt="Avatar" />
                     <div className='flex flex-col'>
                       <span className="font-semibold !text-zinc-900 dark:text-white">{session.user.name}</span>
                       <span className="font-semibold !text-zinc-900 dark:text-white">{session.user.role || "Role"}</span>
